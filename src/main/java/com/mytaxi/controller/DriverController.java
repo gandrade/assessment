@@ -1,11 +1,14 @@
 package com.mytaxi.controller;
 
+import com.mytaxi.controller.mapper.CarMapper;
 import com.mytaxi.controller.mapper.DriverMapper;
+import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+import com.mytaxi.service.car.CarService;
 import com.mytaxi.service.driver.DriverService;
 import java.util.List;
 import javax.validation.Valid;
@@ -32,12 +35,14 @@ public class DriverController
 {
 
     private final DriverService driverService;
+    private final CarService carService;
 
 
     @Autowired
-    public DriverController(final DriverService driverService)
+    public DriverController(final DriverService driverService, final CarService carService)
     {
         this.driverService = driverService;
+        this.carService = carService;
     }
 
 
@@ -78,5 +83,17 @@ public class DriverController
         throws ConstraintsViolationException, EntityNotFoundException
     {
         return DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
+    }
+
+    @PutMapping("/{driverId}/cars/{carId}/assign")
+    public DriverDTO assignCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException
+    {
+        return DriverMapper.makeDriverDTO(driverService.assign(carId, driverId));
+    }
+
+    @PutMapping("/{driverId}/cars/{carId}/deselect")
+    public DriverDTO unassingCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException
+    {
+        return DriverMapper.makeDriverDTO(driverService.unassign(carId, driverId));
     }
 }
