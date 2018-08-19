@@ -42,13 +42,15 @@ values
 'driver08pw', 'driver08');
 
 
--- Manufacture seed
+-- Manufacturer seed
 
 insert into manufacturer (id, date_created, name) values (1, now(), 'TOYOTA');
 
 insert into manufacturer (id, date_created, name) values (2, now(), 'CHEVROLET');
 
 insert into manufacturer (id, date_created, name) values (3, now(), 'VOLKSWAGEN');
+
+insert into manufacturer (id, date_created, name) values (4, now(), 'TESLA');
 
 -- Car seed
 insert into car (id, date_created, license_plate, seat_count, convertible, rating, engine_type, manufacturer_id)
