@@ -5,7 +5,9 @@ import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+import java.util.Collection;
 import java.util.List;
+import org.springframework.data.jpa.domain.Specification;
 
 public interface DriverService
 {
@@ -23,4 +25,6 @@ public interface DriverService
     DriverDO assign(Long carId, Long driverId) throws EntityNotFoundException;
 
     DriverDO unassign(Long carId, Long driverId) throws EntityNotFoundException;
+
+    List<DriverDO> findAll(Specification<DriverDO> spec);
 }

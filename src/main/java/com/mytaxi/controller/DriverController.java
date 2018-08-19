@@ -1,8 +1,6 @@
 package com.mytaxi.controller;
 
-import com.mytaxi.controller.mapper.CarMapper;
 import com.mytaxi.controller.mapper.DriverMapper;
-import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
@@ -10,9 +8,13 @@ import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
 import com.mytaxi.service.driver.DriverService;
+import com.mytaxi.controller.specification.DriverSpecificationBuilder;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,5 +97,19 @@ public class DriverController
     public DriverDTO unassingCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException
     {
         return DriverMapper.makeDriverDTO(driverService.unassign(carId, driverId));
+    }
+
+    @GetMapping("/drivers")
+    public List<DriverDTO> getDrivers(@RequestParam(value = "search") String search){
+        DriverSpecificationBuilder builder = new DriverSpecificationBuilder();
+        Pattern pattern = Pattern.compile("(\\w+?)(=)(.*),");
+        Matcher matcher = pattern.matcher(search + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+
+        Specification<DriverDO> spec = builder.build();
+        return DriverMapper.makeDriverDTOList(driverService.findAll(spec));
+
     }
 }

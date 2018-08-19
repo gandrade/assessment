@@ -12,6 +12,7 @@ import com.mytaxi.service.car.CarService;
 import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -137,6 +138,13 @@ public class DefaultDriverService implements DriverService
         DriverDO driverDO = this.find(driverId);
         driverDO.setCarDO(null);
         return driverDO;
+    }
+
+
+    @Override
+    public List<DriverDO> findAll(Specification<DriverDO> spec)
+    {
+        return driverRepository.findAll(spec);
     }
 
 
