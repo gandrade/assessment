@@ -69,6 +69,7 @@ public class DefaultCarService implements CarService
             car.setSeatCount(carDO.getSeatCount());
             car.setConvertible(carDO.getConvertible());
             car.setLicensePlate(carDO.getLicensePlate());
+            car.setRating(carDO.getRating());
             car.setManufacturerDO(manufacturerService.findByNameIgnoreCase(carDO.getManufacturerDO().getName()));
             carRepository.save(car);
         }
