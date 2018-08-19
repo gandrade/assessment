@@ -1,6 +1,7 @@
 package com.mytaxi.domainobject;
 
 import com.mytaxi.domainvalue.EngineType;
+import java.util.Objects;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -109,5 +110,28 @@ public class CarDO {
 
     public void setManufacturerDO(ManufacturerDO manufacturerDO) {
         this.manufacturerDO = manufacturerDO;
+    }
+
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        CarDO carDO = (CarDO) o;
+        return Objects.equals(id, carDO.id);
+    }
+
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id);
     }
 }

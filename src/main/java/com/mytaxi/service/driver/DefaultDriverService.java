@@ -124,9 +124,9 @@ public class DefaultDriverService implements DriverService
     public DriverDO assign(Long driverId, Long carId) throws EntityNotFoundException
     {
         CarDO carDO = carService.find(carId);
-        DriverDO driverDO = this.find(driverId);
+        DriverDO driverDO = findDriverChecked(driverId);
         driverDO.setCarDO(carDO);
-        return driverRepository.save(driverDO);
+        return driverDO;
     }
 
 
@@ -136,7 +136,7 @@ public class DefaultDriverService implements DriverService
     {
         DriverDO driverDO = this.find(driverId);
         driverDO.setCarDO(null);
-        return driverRepository.save(driverDO);
+        return driverDO;
     }
 
 

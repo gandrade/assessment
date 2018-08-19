@@ -1,5 +1,7 @@
 package com.mytaxi.domainobject;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,6 +21,23 @@ public class ManufacturerDO {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(
+        mappedBy = "manufacturerDO",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<CarDO> cars = new ArrayList<>();
+
+    public void addCar(CarDO carDO) {
+        cars.add(carDO);
+        carDO.setManufacturerDO(this);
+    }
+
+    public void removeComment(CarDO carDO) {
+        cars.remove(carDO);
+        carDO.setManufacturerDO(this);
+    }
 
     public ManufacturerDO() {
 
