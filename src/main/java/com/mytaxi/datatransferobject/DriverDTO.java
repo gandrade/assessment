@@ -21,7 +21,7 @@ public class DriverDTO
     private GeoCoordinate coordinate;
 
 
-    private DriverDTO()
+    public DriverDTO()
     {
     }
 

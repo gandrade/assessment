@@ -32,7 +32,7 @@ public class CarDTO {
     @JsonProperty("manufacturer")
     private ManufacturerDTO manufacturerDTO;
 
-    private CarDTO() {
+    public CarDTO() {
 
     }
 

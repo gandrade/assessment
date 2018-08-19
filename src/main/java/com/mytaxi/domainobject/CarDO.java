@@ -40,7 +40,7 @@ public class CarDO {
     @OneToOne(mappedBy = "carDO", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private DriverDO driverDO;
 
-    public CarDO(){
+    private CarDO(){
     }
 
     public CarDO(String licensePlate, Integer seatCount, Boolean convertible, Float rating, EngineType engineType) {
