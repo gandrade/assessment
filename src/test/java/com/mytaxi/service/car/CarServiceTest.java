@@ -24,9 +24,9 @@ public class CarServiceTest
     private CarService service;
 
     @Test
-    public void shouldSaveCarDO() throws ConstraintsViolationException
+    public void shouldSaveCarDO() throws ConstraintsViolationException, EntityNotFoundException
     {
-        CarDO carDO = new CarDO("LICENSE-NEW", 4, true, 3F, EngineType.ELETRIC, new ManufacturerDO("Volvo"));
+        CarDO carDO = new CarDO("LICENSE-NEW", 4, true, 3F, EngineType.ELETRIC, new ManufacturerDO("Toyota"));
         CarDO newCarDO = service.create(carDO);
 
         assertThat(newCarDO.getId(), notNullValue());
@@ -37,7 +37,7 @@ public class CarServiceTest
     }
 
     @Test(expected = ConstraintsViolationException.class)
-    public void shouldThrowConstraintsViolationExceptionsWhenCreateCarDO() throws ConstraintsViolationException
+    public void shouldThrowConstraintsViolationExceptionsWhenCreateCarDO() throws ConstraintsViolationException, EntityNotFoundException
     {
         CarDO carDO = new CarDO("LICENSE-TST", 4, true, 3F, EngineType.ELETRIC, new ManufacturerDO("Tesla"));
         service.create(carDO);
@@ -47,7 +47,7 @@ public class CarServiceTest
     public void shouldThrowConstraintsViolationExceptionWhenUpdateCarDO() throws ConstraintsViolationException, EntityNotFoundException
     {
         CarDO carDO = new CarDO("LICENSE-TST", 4, true, 3F, EngineType.ELETRIC, new ManufacturerDO("Tesla"));
-        service.update(1, carDO);
+        service.update(2, carDO);
 
     }
 

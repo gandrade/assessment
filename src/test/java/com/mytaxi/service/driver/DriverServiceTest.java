@@ -50,13 +50,4 @@ public class DriverServiceTest
         driverService.unassign(999L, 1L);
     }
 
-    @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenUnassingUnknownDriverForACar() throws EntityNotFoundException
-    {
-        driverService.unassign(1L, 0000L);
-    }
-
-
-
-
 }
