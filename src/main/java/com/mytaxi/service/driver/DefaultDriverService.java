@@ -6,6 +6,7 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.OnlineStatus;
+import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
@@ -28,7 +29,6 @@ public class DefaultDriverService implements DriverService
 
     private final DriverRepository driverRepository;
     private final CarService carService;
-
 
 
     public DefaultDriverService(final DriverRepository driverRepository, CarService carService)
@@ -122,12 +122,17 @@ public class DefaultDriverService implements DriverService
 
     @Override
     @Transactional
-    public DriverDO assign(Long driverId, Long carId) throws EntityNotFoundException
+    public DriverDO assign(Long driverId, Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
-        CarDO carDO = carService.find(carId);
-        DriverDO driverDO = findDriverChecked(driverId);
-        driverDO.setCarDO(carDO);
+        if (!carService.existsById(carId))
+        {
+            throw new EntityNotFoundException("");
+        }
+        CarDO carDO = carService.findAvailable(carId);
+        DriverDO driverDO = findOnlineDriver(driverId);
+        carDO.setDriverDO(driverDO);
         return driverDO;
+
     }
 
 
@@ -145,6 +150,13 @@ public class DefaultDriverService implements DriverService
     public List<DriverDO> findAll(Specification<DriverDO> spec)
     {
         return driverRepository.findAll(spec);
+    }
+
+
+    private DriverDO findOnlineDriver(Long driverId) throws EntityNotFoundException
+    {
+        return driverRepository.findByIdAndOnlineStatus(driverId, OnlineStatus.ONLINE)
+            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
     }
 
 

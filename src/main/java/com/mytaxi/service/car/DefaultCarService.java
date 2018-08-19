@@ -2,6 +2,8 @@ package com.mytaxi.service.car;
 
 import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.domainobject.CarDO;
+import com.mytaxi.domainobject.DriverDO;
+import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.driver.DefaultDriverService;
@@ -9,7 +11,6 @@ import com.mytaxi.service.manufacturer.ManufacturerService;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DefaultCarService implements CarService
@@ -38,6 +39,14 @@ public class DefaultCarService implements CarService
 
 
     @Override
+    public CarDO findAvailable(Long carId) throws CarAlreadyInUseException
+    {
+        return carRepository.findByIdAndDriverDOIsNull(carId).orElseThrow(() -> new CarAlreadyInUseException("Car " + carId + " already in use."));
+        // return carRepository.findByIdAndDriverDO(carId).orElseThrow(() -> new CarAlreadyInUseException("Car " + carId + " already in use."));
+    }
+
+
+    @Override
     public CarDO create(CarDO carDO) throws ConstraintsViolationException, EntityNotFoundException
     {
         try
@@ -60,6 +69,13 @@ public class DefaultCarService implements CarService
 
 
     @Override
+    public boolean existsById(Long carId)
+    {
+        return carRepository.existsById(carId);
+    }
+
+
+    @Override
     public void update(long carId, CarDO carDO) throws EntityNotFoundException, ConstraintsViolationException
     {
         try
@@ -71,6 +87,7 @@ public class DefaultCarService implements CarService
             car.setLicensePlate(carDO.getLicensePlate());
             car.setRating(carDO.getRating());
             car.setManufacturerDO(manufacturerService.findByNameIgnoreCase(carDO.getManufacturerDO().getName()));
+            car.setDriverDO(carDO.getDriverDO());
             carRepository.save(car);
         }
         catch (DataIntegrityViolationException e)

@@ -3,6 +3,7 @@ package com.mytaxi.dataaccessobject;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
@@ -17,4 +18,6 @@ public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpe
 
 
     DriverDO findOneWithCarDOById(Long driverId);
+
+    Optional<DriverDO> findByIdAndOnlineStatus(Long driverId, OnlineStatus online);
 }

@@ -1,5 +1,7 @@
 package com.mytaxi.service.driver;
 
+import com.mytaxi.exception.CarAlreadyInUseException;
+import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,29 +16,30 @@ public class DriverServiceTest
     @Autowired
     private DriverService driverService;
 
-    @Test
-    public void shouldAssignCarForADriver(){
-
-
+    @Test(expected = CarAlreadyInUseException.class)
+    public void shouldAssignSameCarForDifferentDrivers() throws CarAlreadyInUseException, EntityNotFoundException, ConstraintsViolationException
+    {
+        driverService.assign(6L, 1L);
+        driverService.assign(5L, 1L);
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenAssignCarUnknownCarForADriver() throws EntityNotFoundException
+    public void shouldThrowEntityNotFoundExceptionWhenAssignCarUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
         driverService.assign(999L, 999L);
 
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenAssignUnknownCarForADriver() throws EntityNotFoundException
+    public void shouldThrowEntityNotFoundExceptionWhenAssignUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
         driverService.assign(0000L, 1L);
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenAssingUnknownDriverForACar() throws EntityNotFoundException
+    public void shouldThrowEntityNotFoundExceptionWhenAssingUnknownDriverForACar() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
-        driverService.assign(1L, 0000L);
+        driverService.assign(0000L, 1L);
     }
 
     @Test
@@ -45,7 +48,7 @@ public class DriverServiceTest
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenUnassignUnknownCarForADriver() throws EntityNotFoundException
+    public void shouldThrowEntityNotFoundExceptionWhenUnknownDriver() throws EntityNotFoundException
     {
         driverService.unassign(999L, 1L);
     }

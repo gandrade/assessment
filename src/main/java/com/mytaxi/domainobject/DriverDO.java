@@ -46,8 +46,9 @@ public class DriverDO
     @Column(nullable = false)
     private OnlineStatus onlineStatus;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "car_id")
+    @OneToOne(mappedBy = "driverDO", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private CarDO carDO;
 
 

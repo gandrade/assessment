@@ -37,7 +37,9 @@ public class CarDO {
     @JoinColumn(name = "manufacturer_id")
     private ManufacturerDO manufacturerDO;
 
-    @OneToOne(mappedBy = "carDO", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    // @OneToOne(mappedBy = "carDO", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id")
     private DriverDO driverDO;
 
     private CarDO(){
@@ -110,6 +112,26 @@ public class CarDO {
 
     public void setManufacturerDO(ManufacturerDO manufacturerDO) {
         this.manufacturerDO = manufacturerDO;
+    }
+
+
+    public DriverDO getDriverDO()
+    {
+        return driverDO;
+    }
+
+
+    public void setDriverDO(DriverDO driverDO)
+    {
+        if (driverDO == null) {
+            if (this.driverDO != null) {
+                this.driverDO.setCarDO(null);
+            }
+        }
+        else {
+            driverDO.setCarDO(this);
+        }
+        this.driverDO = driverDO;
     }
 
 
