@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mytaxi.domainvalue.GeoCoordinate;
+import com.mytaxi.domainvalue.OnlineStatus;
 import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -20,20 +21,23 @@ public class DriverDTO
 
     private GeoCoordinate coordinate;
 
+    private OnlineStatus onlineStatus;
 
-    public DriverDTO()
+    private CarDTO carDTO = CarDTO.newBuilder().createCarDTO();
+
+    private DriverDTO()
     {
     }
 
 
-    private DriverDTO(Long id, String username, String password, GeoCoordinate coordinate)
+    private DriverDTO(Long id, String username, String password, GeoCoordinate coordinate, CarDTO carDTO)
     {
         this.id = id;
         this.username = username;
         this.password = password;
         this.coordinate = coordinate;
+        this.carDTO = carDTO;
     }
-
 
     public static DriverDTOBuilder newBuilder()
     {
@@ -65,12 +69,26 @@ public class DriverDTO
         return coordinate;
     }
 
+
+    @JsonIgnore
+    public OnlineStatus getOnlineStatus()
+    {
+        return onlineStatus;
+    }
+
+    @JsonProperty("car")
+    public CarDTO getCarDTO()
+    {
+        return carDTO;
+    }
+
     public static class DriverDTOBuilder
     {
         private Long id;
         private String username;
         private String password;
         private GeoCoordinate coordinate;
+        private CarDTO carDTO;
 
 
         public DriverDTOBuilder setId(Long id)
@@ -101,10 +119,15 @@ public class DriverDTO
         }
 
 
-        public DriverDTO createDriverDTO()
-        {
-            return new DriverDTO(id, username, password, coordinate);
+        public DriverDTOBuilder setCarDTO(CarDTO carDTO) {
+            this.carDTO = carDTO;
+            return this;
         }
 
+
+        public DriverDTO createDriverDTO()
+        {
+            return new DriverDTO(id, username, password, coordinate, carDTO);
+        }
     }
 }

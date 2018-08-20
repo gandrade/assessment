@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mytaxi.domainobject.ManufacturerDO;
 import com.mytaxi.domainvalue.EngineType;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -30,9 +31,10 @@ public class CarDTO {
     private EngineType engineType;
 
     @JsonProperty("manufacturer")
+    @Valid
     private ManufacturerDTO manufacturerDTO;
 
-    public CarDTO() {
+    private CarDTO() {
 
     }
 
@@ -47,7 +49,12 @@ public class CarDTO {
 
     private CarDTO(Long id, String licensePlate, Integer seatCount, Boolean convertible, Float rating, EngineType engineType, ManufacturerDTO manufacturerDTO) {
         this(id, licensePlate, seatCount, convertible, rating, engineType);
-        this.manufacturerDTO = manufacturerDTO;
+        if (manufacturerDTO == null){
+            this.manufacturerDTO = ManufacturerDTO.newBuilder().createNewManufacturerDTO();
+        } else
+        {
+            this.manufacturerDTO = manufacturerDTO;
+        }
     }
 
     public static CarDTOBuilder newBuilder() {

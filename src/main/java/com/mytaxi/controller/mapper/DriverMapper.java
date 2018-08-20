@@ -1,6 +1,7 @@
 package com.mytaxi.controller.mapper;
 
 import com.mytaxi.datatransferobject.DriverDTO;
+import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class DriverMapper
             driverDTOBuilder.setCoordinate(coordinate);
         }
 
+        driverDTOBuilder.setCarDTO(CarMapper.makeCarDTO(driverDO.getCarDO()));
         return driverDTOBuilder.createDriverDTO();
     }
 

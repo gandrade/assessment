@@ -6,6 +6,9 @@ import com.mytaxi.domainobject.CarDO;
 public class CarMapper {
 
     public static CarDTO makeCarDTO(CarDO carDO) {
+        if (carDO == null) {
+            return null;
+        }
         return CarDTO.newBuilder()
                 .setId(carDO.getId())
                 .setConvertible(carDO.getConvertible())
