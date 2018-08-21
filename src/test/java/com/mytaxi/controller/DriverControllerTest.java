@@ -28,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WithMockUser(username = "mytaxi", password = "mytaxi")
 public class DriverControllerTest
 {
@@ -48,6 +47,20 @@ public class DriverControllerTest
 
 
     @Test
+    @DirtiesContext
+    public void shouldReturnADriverWithNoCarAssigned() throws Exception
+    {
+
+        this.mockMvc.perform(get("/v1/drivers")
+            .param("username", "driver08"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.[0].id", is(notNullValue())))
+            .andExpect(jsonPath("$.[0].car").doesNotExist())
+            .andExpect(jsonPath("$.length()", is(1)));
+    }
+
+
+    @Test
     public void shouldReturnASingleDriver() throws Exception
     {
         this.mockMvc.perform(get("/v1/drivers/1"))
@@ -57,6 +70,7 @@ public class DriverControllerTest
 
 
     @Test
+    @DirtiesContext
     public void shouldCreateADriver() throws Exception
     {
         DriverDTO driverDTO = DriverDTO.newBuilder()
@@ -68,8 +82,38 @@ public class DriverControllerTest
         this.mockMvc.perform(post("/v1/drivers/")
             .contentType(MediaType.APPLICATION_JSON)
             .content(payload))
-            .andExpect(status().isCreated());
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id", is(notNullValue())));
     }
+
+    @Test
+    public void shouldReturnErrorCreatingADriverWithoutUsername() throws Exception
+    {
+        DriverDTO driverDTO = DriverDTO.newBuilder()
+            .setPassword("driver-tst-pw")
+            .createDriverDTO();
+        String payload = new ObjectMapper().writeValueAsString(driverDTO);
+
+        this.mockMvc.perform(post("/v1/drivers/")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(payload))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldReturnErrorCreatingADriverWithoutPassword() throws Exception
+    {
+        DriverDTO driverDTO = DriverDTO.newBuilder()
+            .setUsername("driver-tst")
+            .createDriverDTO();
+        String payload = new ObjectMapper().writeValueAsString(driverDTO);
+
+        this.mockMvc.perform(post("/v1/drivers/")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(payload))
+            .andExpect(status().isBadRequest());
+    }
+
 
 
     @Test
@@ -85,6 +129,7 @@ public class DriverControllerTest
 
 
     @Test
+    @DirtiesContext
     public void shouldDeleteDriver() throws Exception
     {
         DriverDTO driverDTO = DriverDTO.newBuilder()
@@ -104,6 +149,7 @@ public class DriverControllerTest
 
 
     @Test
+    @DirtiesContext
     public void shouldAssignCarForADriver() throws Exception
     {
         this.mockMvc.perform(put("/v1/drivers/8/cars/1/assign")
@@ -122,6 +168,15 @@ public class DriverControllerTest
         this.mockMvc.perform(put("/v1/drivers/6/cars/1/assign")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isConflict());
+    }
+
+
+    @Test
+    public void shouldReturnErrorWhenAssigningCarForAOfflineDriver() throws Exception
+    {
+        this.mockMvc.perform(put("/v1/drivers/1/cars/1/assign")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
     }
 
 

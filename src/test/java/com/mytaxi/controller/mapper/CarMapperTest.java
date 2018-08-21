@@ -39,6 +39,7 @@ public class CarMapperTest
         assertThat(carDTO.getManufacturerDTO().getName(), equalTo("TESLA"));
     }
 
+
     @Test
     public void shouldMakeCarDTOWithNoSeatCount()
     {
@@ -52,6 +53,7 @@ public class CarMapperTest
         assertThat(carDTO.getSeatCount(), nullValue());
         assertThat(carDTO.getManufacturerDTO().getName(), equalTo("TESLA"));
     }
+
 
     @Test
     public void shouldMakeCarDTOWithNoManufacturer()

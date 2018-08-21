@@ -30,6 +30,7 @@ public class CarDTO
     private EngineType engineType;
 
     @JsonProperty("manufacturer")
+    @NotNull
     @Valid
     private ManufacturerDTO manufacturerDTO;
 
@@ -178,6 +179,4 @@ public class CarDTO
             return new CarDTO(id, licensePlate, seatCount, convertible, rating, engineType, manufacturerDTO);
         }
     }
-
-
 }

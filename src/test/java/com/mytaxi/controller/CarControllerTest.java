@@ -1,6 +1,7 @@
 package com.mytaxi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainvalue.EngineType;
@@ -14,10 +15,16 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -64,17 +71,22 @@ public class CarControllerTest
             .setLicensePlate("XXXX-XXXX")
             .setEngineType(EngineType.ELETRIC)
             .setRating(5f)
-            .setManufacturerDTO(ManufacturerDTO.newBuilder()
-                .setName("TOYOTA")
-                .createNewManufacturerDTO()).createCarDTO();
+            .setManufacturerDTO(
+                ManufacturerDTO.newBuilder()
+                    .setName("toyota")
+                    .createNewManufacturerDTO())
+            .createCarDTO();
         String payload = new ObjectMapper()
             .writeValueAsString(car);
 
         this.mockMvc.perform(post("/v1/cars/")
             .contentType(MediaType.APPLICATION_JSON)
             .content(payload))
-            .andExpect(status().isCreated());
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id", is(notNullValue())))
+            .andExpect(jsonPath("$.manufacturer").exists());
     }
+
 
 
     @Test
@@ -106,11 +118,13 @@ public class CarControllerTest
             .setLicensePlate("XXXX-XXXX")
             .setEngineType(EngineType.ELETRIC)
             .setRating(6f)
-            .setManufacturerDTO(ManufacturerDTO.newBuilder()
-                .setName("TOYOTA")
-                .createNewManufacturerDTO()).createCarDTO();
-        String payload = new ObjectMapper()
-            .writeValueAsString(car);
+            .setManufacturerDTO(
+                ManufacturerDTO.newBuilder()
+                    .setName("TOYOTA")
+                    .createNewManufacturerDTO())
+            .createCarDTO();
+
+        String payload = new ObjectMapper().writeValueAsString(car);
 
         this.mockMvc.perform(post("/v1/cars/")
             .contentType(MediaType.APPLICATION_JSON)
@@ -128,9 +142,11 @@ public class CarControllerTest
             .setLicensePlate("XXXX-XXXX")
             .setEngineType(EngineType.ELETRIC)
             .setRating(5f)
-            .setManufacturerDTO(ManufacturerDTO.newBuilder()
-                .setName("TOYOTA")
-                .createNewManufacturerDTO()).createCarDTO();
+            .setManufacturerDTO(
+                ManufacturerDTO.newBuilder()
+                    .setName("TOYOTA")
+                    .createNewManufacturerDTO())
+            .createCarDTO();
         String payload = new ObjectMapper()
             .writeValueAsString(car);
 
@@ -150,9 +166,11 @@ public class CarControllerTest
             .setLicensePlate("XXXX-XXXX")
             .setEngineType(EngineType.ELETRIC)
             .setRating(-5f)
-            .setManufacturerDTO(ManufacturerDTO.newBuilder()
-                .setName("TOYOTA")
-                .createNewManufacturerDTO()).createCarDTO();
+            .setManufacturerDTO(
+                ManufacturerDTO.newBuilder()
+                    .setName("TOYOTA")
+                    .createNewManufacturerDTO())
+            .createCarDTO();
         String payload = new ObjectMapper()
             .writeValueAsString(car);
 
@@ -160,5 +178,50 @@ public class CarControllerTest
             .contentType(MediaType.APPLICATION_JSON)
             .content(payload))
             .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldUpdateACar() throws Exception
+    {
+        CarDTO car = CarDTO.newBuilder()
+            .setConvertible(true)
+            .setSeatCount(4)
+            .setLicensePlate("1111-1111")
+            .setEngineType(EngineType.HYBRID)
+            .setRating(5f)
+            .setManufacturerDTO(
+                ManufacturerDTO.newBuilder()
+                    .setName("toyota")
+                    .createNewManufacturerDTO())
+            .createCarDTO();
+        String payload = new ObjectMapper()
+            .writeValueAsString(car);
+
+        MvcResult result = this.mockMvc.perform(post("/v1/cars/")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(payload))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id", is(notNullValue())))
+            .andExpect(jsonPath("$.manufacturer").exists())
+            .andReturn();
+
+        CarDTO newCar = CarDTO.newBuilder()
+            .setConvertible(true)
+            .setSeatCount(4)
+            .setLicensePlate("2222-2222")
+            .setEngineType(EngineType.GAS)
+            .setRating(5f)
+            .setManufacturerDTO(
+                ManufacturerDTO.newBuilder()
+                    .setName("toyota")
+                    .createNewManufacturerDTO())
+            .createCarDTO();
+        String newPayload = new ObjectMapper().writeValueAsString(newCar);
+        Object carId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+        this.mockMvc.perform(put("/v1/cars/" + carId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(newPayload))
+            .andExpect(status().isOk());
+
     }
 }
