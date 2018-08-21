@@ -2,6 +2,9 @@ package com.mytaxi.controller.mapper;
 
 import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.domainobject.CarDO;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CarMapper
 {
@@ -33,5 +36,13 @@ public class CarMapper
             carDTO.getRating(),
             carDTO.getEngineType(),
             ManufacturerMapper.makeManufacturerDO(carDTO.getManufacturerDTO()));
+    }
+
+
+    public static List<CarDTO> makeCarDTOList(List<CarDO> cars)
+    {
+        return cars.stream()
+            .map(CarMapper::makeCarDTO)
+            .collect(Collectors.toList());
     }
 }

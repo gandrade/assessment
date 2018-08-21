@@ -6,6 +6,7 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,13 @@ public class CarController
     public CarController(final CarService carService)
     {
         this.carService = carService;
+    }
+
+
+    @GetMapping
+    public List<CarDTO> getCars()
+    {
+        return CarMapper.makeCarDTOList(carService.findAll());
     }
 
 

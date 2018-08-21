@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainvalue.EngineType;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,31 +23,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WithMockUser(username = "mytaxi", password = "mytaxi")
 public class CarControllerTest
 {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     public void shouldFindCars() throws Exception
     {
-        this.mockMvc.perform(get("/v1/cars")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/v1/cars"))
+            .andExpect(status().isOk());
     }
 
 
     @Test
     public void shouldFindCarById() throws Exception
     {
-        this.mockMvc.perform(get("/v1/cars/1")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/v1/cars/1"))
+            .andExpect(status().isOk());
     }
 
 
     @Test
+    @DirtiesContext
     public void shouldDeleteCar() throws Exception
     {
-        this.mockMvc.perform(delete("/v1/cars/1")).andExpect(status().isOk());
+        this.mockMvc.perform(delete("/v1/cars/1"))
+            .andExpect(status().isOk());
     }
 
 
