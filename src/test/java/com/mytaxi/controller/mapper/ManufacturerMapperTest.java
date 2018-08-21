@@ -18,10 +18,14 @@ public class ManufacturerMapperTest
         assertThat(manufacturerDTO.getName(), equalTo("TOYOTA"));
     }
 
+
     @Test
     public void shouldMakeManufacturerDO()
     {
-        ManufacturerDTO manufacturerDTO = new ManufacturerDTO(123l, "Tesla");
+        ManufacturerDTO manufacturerDTO = ManufacturerDTO.newBuilder()
+            .setId(123l)
+            .setName("Tesla")
+            .createNewManufacturerDTO();
         ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
         assertThat(manufacturerDO.getId(), nullValue());
         assertThat(manufacturerDO.getName(), equalTo("TESLA"));

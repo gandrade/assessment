@@ -17,8 +17,7 @@ public class ManufacturerDTO
     }
 
 
-    //FIXME
-    public ManufacturerDTO(Long id, String name)
+    private ManufacturerDTO(Long id, String name)
     {
         this.id = id;
         this.name = name;
