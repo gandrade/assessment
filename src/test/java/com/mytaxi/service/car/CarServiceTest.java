@@ -5,16 +5,15 @@ import com.mytaxi.domainobject.ManufacturerDO;
 import com.mytaxi.domainvalue.EngineType;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,6 +21,7 @@ public class CarServiceTest
 {
     @Autowired
     private CarService service;
+
 
     @Test
     public void shouldSaveCarDO() throws ConstraintsViolationException, EntityNotFoundException
@@ -36,6 +36,7 @@ public class CarServiceTest
         assertThat(newCarDO.getSeatCount(), equalTo(4));
     }
 
+
     @Test(expected = ConstraintsViolationException.class)
     public void shouldThrowConstraintsViolationExceptionsWhenCreateCarDO() throws ConstraintsViolationException, EntityNotFoundException
     {
@@ -43,12 +44,12 @@ public class CarServiceTest
         service.create(carDO);
     }
 
+
     @Test(expected = ConstraintsViolationException.class)
     public void shouldThrowConstraintsViolationExceptionWhenUpdateCarDO() throws ConstraintsViolationException, EntityNotFoundException
     {
         CarDO carDO = new CarDO("LICENSE-TST", 4, true, 3F, EngineType.ELETRIC, new ManufacturerDO("Tesla"));
         service.update(2, carDO);
-
     }
 
 

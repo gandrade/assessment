@@ -64,7 +64,7 @@ public class CarMapperTest
         assertThat(carDTO.getLicensePlate(), equalTo("LICENSE-1231"));
         assertThat(carDTO.getRating(), equalTo(2.2F));
         assertThat(carDTO.getSeatCount(), equalTo(4));
-        assertThat(carDTO.getManufacturerDTO(), nullValue());
+        assertThat(carDTO.getManufacturerDTO().getName(), nullValue());
     }
 
 

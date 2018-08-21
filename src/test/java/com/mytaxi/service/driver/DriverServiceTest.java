@@ -16,6 +16,7 @@ public class DriverServiceTest
     @Autowired
     private DriverService driverService;
 
+
     @Test(expected = CarAlreadyInUseException.class)
     public void shouldAssignSameCarForDifferentDrivers() throws CarAlreadyInUseException, EntityNotFoundException, ConstraintsViolationException
     {
@@ -23,12 +24,13 @@ public class DriverServiceTest
         driverService.assign(5L, 1L);
     }
 
+
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowEntityNotFoundExceptionWhenAssignCarUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
         driverService.assign(999L, 999L);
-
     }
+
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowEntityNotFoundExceptionWhenAssignUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
@@ -36,16 +38,21 @@ public class DriverServiceTest
         driverService.assign(0000L, 1L);
     }
 
+
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowEntityNotFoundExceptionWhenAssingUnknownDriverForACar() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
         driverService.assign(0000L, 1L);
     }
 
-    @Test
-    public void shouldUnassignCarForADriver(){
 
+    @Test
+    public void shouldUnassignCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
+    {
+        driverService.assign(6L, 1L);
+        driverService.unassign(6L, 1L);
     }
+
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowEntityNotFoundExceptionWhenUnknownDriver() throws EntityNotFoundException
