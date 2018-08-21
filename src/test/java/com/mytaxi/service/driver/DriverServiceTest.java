@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -47,6 +48,7 @@ public class DriverServiceTest
 
 
     @Test
+    @DirtiesContext
     public void shouldUnassignCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
         driverService.assign(6L, 1L);
