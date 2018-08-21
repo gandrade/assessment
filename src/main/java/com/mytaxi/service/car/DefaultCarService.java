@@ -2,7 +2,6 @@ package com.mytaxi.service.car;
 
 import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.domainobject.CarDO;
-import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
@@ -41,8 +40,8 @@ public class DefaultCarService implements CarService
     @Override
     public CarDO findAvailable(Long carId) throws CarAlreadyInUseException
     {
-        return carRepository.findByIdAndDriverDOIsNull(carId).orElseThrow(() -> new CarAlreadyInUseException("Car " + carId + " already in use."));
-        // return carRepository.findByIdAndDriverDO(carId).orElseThrow(() -> new CarAlreadyInUseException("Car " + carId + " already in use."));
+        return carRepository.findByIdAndDriverDOIsNull(carId)
+            .orElseThrow(() -> new CarAlreadyInUseException("Car " + carId + " already in use."));
     }
 
 
@@ -59,19 +58,6 @@ public class DefaultCarService implements CarService
             LOG.error("Some constraints are thrown due to driver creation", e);
             throw new ConstraintsViolationException(e.getMessage());
         }
-    }
-
-    @Override
-    public void delete(Long carId)
-    {
-        carRepository.deleteById(carId);
-    }
-
-
-    @Override
-    public boolean existsById(Long carId)
-    {
-        return carRepository.existsById(carId);
     }
 
 
@@ -95,5 +81,19 @@ public class DefaultCarService implements CarService
             LOG.error("Some constraints are thrown due to driver creation", e);
             throw new ConstraintsViolationException(e.getMessage());
         }
+    }
+
+
+    @Override
+    public void delete(Long carId)
+    {
+        carRepository.deleteById(carId);
+    }
+
+
+    @Override
+    public boolean existsById(Long carId)
+    {
+        return carRepository.existsById(carId);
     }
 }

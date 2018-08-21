@@ -4,7 +4,6 @@ import com.mytaxi.controller.mapper.DriverMapper;
 import com.mytaxi.controller.specification.DriverDOSpecification;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
-import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
@@ -80,6 +79,7 @@ public class DriverController
         driverService.updateLocation(driverId, longitude, latitude);
     }
 
+
     @PutMapping("/{driverId}/cars/{carId}/assign")
     public DriverDTO assignCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
@@ -93,6 +93,7 @@ public class DriverController
         return DriverMapper.makeDriverDTO(driverService.unassign(carId, driverId));
     }
 
+
     @GetMapping
     public List<DriverDTO> findDrivers(DriverDTO driverDTO)
     {
@@ -100,8 +101,10 @@ public class DriverController
         return DriverMapper.makeDriverDTOList(driverService.findAll(spec));
     }
 
+
     @InitBinder
-    public void initBinder(WebDataBinder binder) {
+    public void initBinder(WebDataBinder binder)
+    {
         binder.initDirectFieldAccess();
     }
 }

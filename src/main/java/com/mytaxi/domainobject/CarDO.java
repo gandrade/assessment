@@ -1,16 +1,28 @@
 package com.mytaxi.domainobject;
 
 import com.mytaxi.domainvalue.EngineType;
-import java.util.Objects;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "car",
-        uniqueConstraints = @UniqueConstraint(name = "uc_license_plate", columnNames = {"licensePlate"}))
-public class CarDO {
+    uniqueConstraints = @UniqueConstraint(name = "uc_license_plate", columnNames = {"licensePlate"}))
+public class CarDO
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,10 +54,14 @@ public class CarDO {
     @JoinColumn(name = "driver_id")
     private DriverDO driverDO;
 
-    private CarDO(){
+
+    private CarDO()
+    {
     }
 
-    public CarDO(String licensePlate, Integer seatCount, Boolean convertible, Float rating, EngineType engineType) {
+
+    public CarDO(String licensePlate, Integer seatCount, Boolean convertible, Float rating, EngineType engineType)
+    {
         this.licensePlate = licensePlate;
         this.seatCount = seatCount;
         this.convertible = convertible;
@@ -53,64 +69,94 @@ public class CarDO {
         this.engineType = engineType;
     }
 
-    public CarDO(String licensePlate, Integer seatCount, Boolean convertible, Float rating, EngineType engineType, ManufacturerDO manufacturerDO) {
+
+    public CarDO(String licensePlate, Integer seatCount, Boolean convertible, Float rating, EngineType engineType, ManufacturerDO manufacturerDO)
+    {
         this(licensePlate, seatCount, convertible, rating, engineType);
         this.manufacturerDO = manufacturerDO;
     }
 
-    public Long getId() {
+
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public String getLicensePlate() {
+
+    public String getLicensePlate()
+    {
         return licensePlate;
     }
 
-    public void setLicensePlate(String licensePlate) {
+
+    public void setLicensePlate(String licensePlate)
+    {
         this.licensePlate = licensePlate;
     }
 
-    public Integer getSeatCount() {
+
+    public Integer getSeatCount()
+    {
         return seatCount;
     }
 
-    public void setSeatCount(Integer seatCount) {
+
+    public void setSeatCount(Integer seatCount)
+    {
         this.seatCount = seatCount;
     }
 
-    public Boolean getConvertible() {
+
+    public Boolean getConvertible()
+    {
         return convertible;
     }
 
-    public void setConvertible(Boolean convertible) {
+
+    public void setConvertible(Boolean convertible)
+    {
         this.convertible = convertible;
     }
 
-    public Float getRating() {
+
+    public Float getRating()
+    {
         return rating;
     }
 
-    public void setRating(Float rating) {
+
+    public void setRating(Float rating)
+    {
         this.rating = rating;
     }
 
-    public EngineType getEngineType() {
+
+    public EngineType getEngineType()
+    {
         return engineType;
     }
 
-    public void setEngineType(EngineType engineType) {
+
+    public void setEngineType(EngineType engineType)
+    {
         this.engineType = engineType;
     }
 
-    public ManufacturerDO getManufacturerDO() {
+
+    public ManufacturerDO getManufacturerDO()
+    {
         return manufacturerDO;
     }
 
-    public void setManufacturerDO(ManufacturerDO manufacturerDO) {
+
+    public void setManufacturerDO(ManufacturerDO manufacturerDO)
+    {
         this.manufacturerDO = manufacturerDO;
     }
 
@@ -123,12 +169,15 @@ public class CarDO {
 
     public void setDriverDO(DriverDO driverDO)
     {
-        if (driverDO == null) {
-            if (this.driverDO != null) {
+        if (driverDO == null)
+        {
+            if (this.driverDO != null)
+            {
                 this.driverDO.setCarDO(null);
             }
         }
-        else {
+        else
+        {
             driverDO.setCarDO(this);
         }
         this.driverDO = driverDO;

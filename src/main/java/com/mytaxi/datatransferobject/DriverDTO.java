@@ -25,6 +25,7 @@ public class DriverDTO
 
     private CarDTO carDTO = CarDTO.newBuilder().createCarDTO();
 
+
     private DriverDTO()
     {
     }
@@ -38,6 +39,7 @@ public class DriverDTO
         this.coordinate = coordinate;
         this.carDTO = carDTO;
     }
+
 
     public static DriverDTOBuilder newBuilder()
     {
@@ -76,11 +78,13 @@ public class DriverDTO
         return onlineStatus;
     }
 
+
     @JsonProperty("car")
     public CarDTO getCarDTO()
     {
         return carDTO;
     }
+
 
     public static class DriverDTOBuilder
     {
@@ -119,7 +123,8 @@ public class DriverDTO
         }
 
 
-        public DriverDTOBuilder setCarDTO(CarDTO carDTO) {
+        public DriverDTOBuilder setCarDTO(CarDTO carDTO)
+        {
             this.carDTO = carDTO;
             return this;
         }
