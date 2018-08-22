@@ -37,14 +37,12 @@ public class DriverController
 {
 
     private final DriverService driverService;
-    private final CarService carService;
 
 
     @Autowired
     public DriverController(final DriverService driverService, final CarService carService)
     {
         this.driverService = driverService;
-        this.carService = carService;
     }
 
 
@@ -74,14 +72,14 @@ public class DriverController
     @PutMapping("/{driverId}")
     public void updateLocation(
         @Valid @PathVariable long driverId, @RequestParam double longitude, @RequestParam double latitude)
-        throws ConstraintsViolationException, EntityNotFoundException
+        throws EntityNotFoundException
     {
         driverService.updateLocation(driverId, longitude, latitude);
     }
 
 
     @PutMapping("/{driverId}/cars/{carId}/select")
-    public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
+    public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
     {
         return DriverMapper.makeDriverDTO(driverService.select(driverId, carId));
     }
