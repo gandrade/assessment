@@ -66,7 +66,7 @@ public class MytaxiServerApplicantTestApplication extends WebSecurityConfigurerA
     {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        manager.createUser(User.withUsername("mytaxi").password(encoder.encode("mytaxi")).roles("ADMIN").build());
+        manager.createUser(User.withUsername("mytaxi").password(encoder.encode("mytaxi")).roles("USER").build());
         return manager;
     }
 
