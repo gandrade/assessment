@@ -41,7 +41,7 @@ public class DriverDOSpecification
 
             if (carDTO.getLicensePlate() != null)
             {
-                Predicate licensePlate = builder.equal(root.get(DriverDO_.carDO).get(CarDO_.LICENSE_PLATE), carDTO.getLicensePlate());
+                Predicate licensePlate = builder.equal(root.get(DriverDO_.carDO).get(CarDO_.LICENSE_PLATE), carDTO.getLicensePlate().toUpperCase());
                 predicates.add(licensePlate);
             }
 
@@ -65,7 +65,7 @@ public class DriverDOSpecification
 
             if (carDTO.getManufacturerDTO().getName() != null)
             {
-                Predicate engineType = builder.equal(root.get(DriverDO_.carDO).get(CarDO_.MANUFACTURER_DO).get(NAME), carDTO.getManufacturerDTO().getName());
+                Predicate engineType = builder.equal(root.get(DriverDO_.carDO).get(CarDO_.MANUFACTURER_DO).get(NAME), carDTO.getManufacturerDTO().getName().toUpperCase());
                 predicates.add(engineType);
             }
 
