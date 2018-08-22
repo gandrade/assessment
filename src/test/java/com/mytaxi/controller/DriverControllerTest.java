@@ -86,6 +86,7 @@ public class DriverControllerTest
             .andExpect(jsonPath("$.id", is(notNullValue())));
     }
 
+
     @Test
     public void shouldReturnErrorCreatingADriverWithoutUsername() throws Exception
     {
@@ -100,6 +101,7 @@ public class DriverControllerTest
             .andExpect(status().isBadRequest());
     }
 
+
     @Test
     public void shouldReturnErrorCreatingADriverWithoutPassword() throws Exception
     {
@@ -113,7 +115,6 @@ public class DriverControllerTest
             .content(payload))
             .andExpect(status().isBadRequest());
     }
-
 
 
     @Test

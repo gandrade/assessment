@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -62,6 +60,7 @@ public class MytaxiServerApplicantTestApplication extends WebSecurityConfigurerA
             "urn:tos", "career@mytaxi.com", "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0");
     }
 
+
     @Bean
     public UserDetailsService userDetailsService()
     {
@@ -76,10 +75,10 @@ public class MytaxiServerApplicantTestApplication extends WebSecurityConfigurerA
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .mvcMatchers("/").permitAll()
-                .mvcMatchers("/v1/**").authenticated()
+            .mvcMatchers("/").permitAll()
+            .mvcMatchers("/v1/**").authenticated()
             .and()
-                .httpBasic().and().formLogin();
+            .httpBasic().and().formLogin();
 
         allowH2Console(http);
     }

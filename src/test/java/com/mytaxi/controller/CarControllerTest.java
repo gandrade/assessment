@@ -16,7 +16,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -86,7 +85,6 @@ public class CarControllerTest
             .andExpect(jsonPath("$.id", is(notNullValue())))
             .andExpect(jsonPath("$.manufacturer").exists());
     }
-
 
 
     @Test
@@ -179,6 +177,7 @@ public class CarControllerTest
             .content(payload))
             .andExpect(status().isBadRequest());
     }
+
 
     @Test
     public void shouldUpdateACar() throws Exception

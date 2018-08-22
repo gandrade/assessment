@@ -1,7 +1,5 @@
 package com.mytaxi.service.driver;
 
-import com.mytaxi.controller.mapper.DriverMapper;
-import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
@@ -29,6 +27,7 @@ public class DriverServiceTest
         driverService.create(driverDO);
     }
 
+
     @Test(expected = CarAlreadyInUseException.class)
     @DirtiesContext
     public void shouldThrowCarAlreadyInUseExceptionSelectingSameCarForDifferentDrivers() throws CarAlreadyInUseException, EntityNotFoundException, ConstraintsViolationException
@@ -50,6 +49,7 @@ public class DriverServiceTest
     {
         driverService.select(0000L, 1L);
     }
+
 
     @Test
     @DirtiesContext
