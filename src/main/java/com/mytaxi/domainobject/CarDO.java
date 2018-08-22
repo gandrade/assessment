@@ -49,7 +49,6 @@ public class CarDO
     @JoinColumn(name = "manufacturer_id")
     private ManufacturerDO manufacturerDO;
 
-    // @OneToOne(mappedBy = "carDO", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
     private DriverDO driverDO;

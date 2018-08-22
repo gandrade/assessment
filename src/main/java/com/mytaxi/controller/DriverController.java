@@ -80,17 +80,17 @@ public class DriverController
     }
 
 
-    @PutMapping("/{driverId}/cars/{carId}/assign")
-    public DriverDTO assignCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
+    @PutMapping("/{driverId}/cars/{carId}/select")
+    public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
-        return DriverMapper.makeDriverDTO(driverService.assign(driverId, carId));
+        return DriverMapper.makeDriverDTO(driverService.select(driverId, carId));
     }
 
 
     @PutMapping("/{driverId}/cars/{carId}/deselect")
-    public DriverDTO unassingCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException
+    public void deselectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException
     {
-        return DriverMapper.makeDriverDTO(driverService.unassign(carId, driverId));
+        driverService.deselect(driverId, carId);
     }
 
 

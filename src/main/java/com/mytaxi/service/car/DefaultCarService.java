@@ -47,6 +47,14 @@ public class DefaultCarService implements CarService
 
 
     @Override
+    public CarDO deselect(Long carId, Long driverId) throws EntityNotFoundException
+    {
+        return carRepository.findByIdAndDriverDO_Id(carId, driverId)
+            .orElseThrow(() ->  new EntityNotFoundException("Could not find car with id: " + carId + " for the driver: " + driverId));
+    }
+
+
+    @Override
     public CarDO create(CarDO carDO) throws ConstraintsViolationException, EntityNotFoundException
     {
         try

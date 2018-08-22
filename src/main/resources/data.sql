@@ -64,3 +64,6 @@ insert into car (id, date_created, license_plate, seat_count, convertible, ratin
 
 insert into car (id, date_created, license_plate, seat_count, convertible, rating, engine_type, manufacturer_id)
     values (4, now(), 'LICENSE-999', 2, 1, 4, 'HYBRID', 1);
+
+insert into car (id, date_created, license_plate, seat_count, convertible, rating, engine_type, manufacturer_id)
+    values (5, now(), 'LICENSE-888', 2, 1, 4, 'HYBRID', 4);

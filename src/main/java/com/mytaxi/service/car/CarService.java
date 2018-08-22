@@ -12,6 +12,8 @@ public interface CarService
 
     CarDO findAvailable(Long carId) throws CarAlreadyInUseException;
 
+    CarDO deselect(Long carId, Long driverId) throws EntityNotFoundException;
+
     CarDO create(CarDO carDO) throws ConstraintsViolationException, EntityNotFoundException;
 
     void update(long carId, CarDO carDO) throws EntityNotFoundException, ConstraintsViolationException;

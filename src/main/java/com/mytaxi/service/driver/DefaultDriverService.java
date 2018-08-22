@@ -121,11 +121,11 @@ public class DefaultDriverService implements DriverService
 
     @Override
     @Transactional
-    public DriverDO assign(Long driverId, Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
+    public DriverDO select(Long driverId, Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
         if (!carService.existsById(carId))
         {
-            throw new EntityNotFoundException("");
+            throw new EntityNotFoundException("Could not find car with id: " + carId);
         }
         CarDO carDO = carService.findAvailable(carId);
         DriverDO driverDO = findOnlineDriver(driverId);
@@ -137,11 +137,10 @@ public class DefaultDriverService implements DriverService
 
     @Override
     @Transactional
-    public DriverDO unassign(Long driverId, Long carId) throws EntityNotFoundException
+    public void deselect(Long driverId, Long carId) throws EntityNotFoundException
     {
-        DriverDO driverDO = this.find(driverId);
-        driverDO.setCarDO(null);
-        return driverDO;
+        CarDO carDO = carService.deselect(carId, driverId);
+        carDO.setDriverDO(null);
     }
 
 

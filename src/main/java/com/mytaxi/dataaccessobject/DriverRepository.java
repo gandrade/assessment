@@ -16,7 +16,7 @@ public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpe
 
     List<DriverDO> findByOnlineStatus(OnlineStatus onlineStatus);
 
-    DriverDO findOneWithCarDOById(Long driverId);
+    DriverDO findByIdAndCarDO(Long driverId, Long carId);
 
     Optional<DriverDO> findByIdAndOnlineStatus(Long driverId, OnlineStatus online);
 }

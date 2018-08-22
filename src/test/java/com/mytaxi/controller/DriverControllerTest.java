@@ -150,39 +150,45 @@ public class DriverControllerTest
 
     @Test
     @DirtiesContext
-    public void shouldAssignCarForADriver() throws Exception
+    public void shouldSelectCarForADriver() throws Exception
     {
-        this.mockMvc.perform(put("/v1/drivers/8/cars/1/assign")
+        this.mockMvc.perform(put("/v1/drivers/8/cars/1/select")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
 
 
     @Test
-    public void shouldReturnCarAlreadyInUseAssigningCarForADriver() throws Exception
+    @DirtiesContext
+    public void shouldReturnCarAlreadyInUseSelectingCarForADriver() throws Exception
     {
-        this.mockMvc.perform(put("/v1/drivers/8/cars/1/assign")
+        this.mockMvc.perform(put("/v1/drivers/8/cars/1/select")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        this.mockMvc.perform(put("/v1/drivers/6/cars/1/assign")
+        this.mockMvc.perform(put("/v1/drivers/6/cars/1/select")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isConflict());
     }
 
 
     @Test
-    public void shouldReturnErrorWhenAssigningCarForAOfflineDriver() throws Exception
+    public void shouldReturnErrorWhenSelectingCarForAOfflineDriver() throws Exception
     {
-        this.mockMvc.perform(put("/v1/drivers/1/cars/1/assign")
+        this.mockMvc.perform(put("/v1/drivers/1/cars/1/select")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
 
 
     @Test
-    public void shouldUnassignCarForADriver() throws Exception
+    @DirtiesContext
+    public void shouldDeselectCarForADriver() throws Exception
     {
+        this.mockMvc.perform(put("/v1/drivers/8/cars/1/select")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
         this.mockMvc.perform(put("/v1/drivers/8/cars/1/deselect")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());

@@ -21,9 +21,9 @@ public interface DriverService
 
     List<DriverDO> find(OnlineStatus onlineStatus);
 
-    DriverDO assign(Long driverId, Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException;
+    DriverDO select(Long driverId, Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException;
 
-    DriverDO unassign(Long driverId, Long carId) throws EntityNotFoundException;
+    void deselect(Long driverId, Long carId) throws EntityNotFoundException;
 
     List<DriverDO> findAll(Specification<DriverDO> spec);
 }

@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface CarRepository extends CrudRepository<CarDO, Long>
 {
     Optional<CarDO> findByIdAndDriverDOIsNull(Long carId);
+
+    Optional<CarDO> findByIdAndDriverDO_Id(Long carId, Long driverId);
 }

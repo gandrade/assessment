@@ -1,5 +1,8 @@
 package com.mytaxi.service.driver;
 
+import com.mytaxi.controller.mapper.DriverMapper;
+import com.mytaxi.datatransferobject.DriverDTO;
+import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
@@ -18,48 +21,49 @@ public class DriverServiceTest
     private DriverService driverService;
 
 
+    @Test(expected = ConstraintsViolationException.class)
+    public void shouldThrownConstraintsViolationExceptionCreatingSameUsernameForDifferentDrivers() throws ConstraintsViolationException
+    {
+        DriverDO driverDO = new DriverDO("duplicated-user", "duplicated-pass");
+        driverService.create(driverDO);
+        driverService.create(driverDO);
+    }
+
     @Test(expected = CarAlreadyInUseException.class)
-    public void shouldAssignSameCarForDifferentDrivers() throws CarAlreadyInUseException, EntityNotFoundException, ConstraintsViolationException
+    @DirtiesContext
+    public void shouldThrowCarAlreadyInUseExceptionSelectingSameCarForDifferentDrivers() throws CarAlreadyInUseException, EntityNotFoundException, ConstraintsViolationException
     {
-        driverService.assign(6L, 1L);
-        driverService.assign(5L, 1L);
+        driverService.select(6L, 1L);
+        driverService.select(5L, 1L);
     }
 
 
     @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenAssignCarUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
+    public void shouldThrowEntityNotFoundExceptionWhenSelectCarUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
-        driverService.assign(999L, 999L);
+        driverService.select(999L, 999L);
     }
 
 
     @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenAssignUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
+    public void shouldThrowEntityNotFoundExceptionWhenSelectUnknownCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
-        driverService.assign(0000L, 1L);
+        driverService.select(0000L, 1L);
     }
-
-
-    @Test(expected = EntityNotFoundException.class)
-    public void shouldThrowEntityNotFoundExceptionWhenAssingUnknownDriverForACar() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
-    {
-        driverService.assign(0000L, 1L);
-    }
-
 
     @Test
     @DirtiesContext
-    public void shouldUnassignCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
+    public void shouldDeselectCarForADriver() throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
     {
-        driverService.assign(6L, 1L);
-        driverService.unassign(6L, 1L);
+        driverService.select(6L, 1L);
+        driverService.deselect(6L, 1L);
     }
 
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowEntityNotFoundExceptionWhenUnknownDriver() throws EntityNotFoundException
     {
-        driverService.unassign(999L, 1L);
+        driverService.deselect(999L, 1L);
     }
 
 }
