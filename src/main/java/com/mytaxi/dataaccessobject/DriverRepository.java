@@ -20,6 +20,6 @@ public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpe
 
     Optional<DriverDO> findByIdAndOnlineStatus(Long driverId, OnlineStatus online);
 
-    @Query("SELECT CASE WHEN COUNT(driver) > 0 THEN true ELSE false END FROM DriverDO driver INNER JOIN driver.carDO as carDO WHERE carDO IS NOT NULL AND driver.id=:id ")
-    boolean existsByIdAndCarDOIsNotNull(@Param("id") Long driverId);
+    // @Query("SELECT CASE WHEN COUNT(driver) > 0 THEN true ELSE false END FROM DriverDO driver INNER JOIN driver.carDO as carDO WHERE carDO IS NOT NULL AND driver.id=:id ")
+    boolean existsByIdAndCarDO_IdIsNotNull(Long driverId);
 }

@@ -127,7 +127,7 @@ public class DefaultDriverService implements DriverService
         {
             throw new EntityNotFoundException("Could not find car with id: " + carId);
         }
-        if (driverRepository.existsByIdAndCarDOIsNotNull(driverId)){
+        if (driverRepository.existsByIdAndCarDO_IdIsNotNull(driverId)){
             throw new ConstraintsViolationException("Driver " + driverId + " already has a car selected.");
         }
         CarDO carDO = carService.findAvailable(carId);
