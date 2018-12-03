@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gandrade/assessment.svg?branch=master)](https://travis-ci.org/gandrade/assessment)
+
 # mytaxi backend applicant test
 
 ## Task Description
