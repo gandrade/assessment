@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gandrade/assessment.svg?branch=master)](https://travis-ci.org/gandrade/assessment)
+[![Build Status](https://travis-ci.org/gandrade/assessment.svg?branch=master)](https://travis-ci.org/gandrade/assessment) [![codebeat badge](https://codebeat.co/badges/fe97ba25-408a-4042-86a2-08ed20c8e44d)](https://codebeat.co/projects/github-com-gandrade-assessment-master)
 
 # mytaxi backend applicant test
 
