@@ -17,7 +17,7 @@ public class DriverDOSpecification
 
     public static Specification<DriverDO> makeDriverDOSpecification(DriverDTO driverDTO)
     {
-        return (Specification<DriverDO>) (root, query, builder) -> {
+        return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             CarDTO carDTO = driverDTO.getCarDTO();
 

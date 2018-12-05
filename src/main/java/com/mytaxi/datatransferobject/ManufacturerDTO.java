@@ -56,7 +56,7 @@ public class ManufacturerDTO
         }
 
 
-        public ManufacturerDTO createNewManufacturerDTO()
+        public ManufacturerDTO createManufacturerDTO()
         {
             return new ManufacturerDTO(id, name);
         }

@@ -15,7 +15,7 @@ public class ManufacturerMapper
         return ManufacturerDTO.newBuilder()
             .setId(manufacturerDO.getId())
             .setName(manufacturerDO.getName())
-            .createNewManufacturerDTO();
+            .createManufacturerDTO();
     }
 
 

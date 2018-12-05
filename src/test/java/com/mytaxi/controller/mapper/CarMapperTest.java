@@ -73,7 +73,7 @@ public class CarMapperTest
     @Test
     public void shouldMakeCarDO()
     {
-        ManufacturerDTO manufacturerDTO = new ManufacturerDTO.ManufacturerDTOBuilder().setName("Tesla").createNewManufacturerDTO();
+        ManufacturerDTO manufacturerDTO = new ManufacturerDTO.ManufacturerDTOBuilder().setName("Tesla").createManufacturerDTO();
         CarDTO carDTO = new CarDTO.CarDTOBuilder()
             .setManufacturerDTO(manufacturerDTO)
             .setSeatCount(4)

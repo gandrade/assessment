@@ -25,7 +25,7 @@ public class ManufacturerMapperTest
         ManufacturerDTO manufacturerDTO = ManufacturerDTO.newBuilder()
             .setId(123l)
             .setName("Tesla")
-            .createNewManufacturerDTO();
+            .createManufacturerDTO();
         ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
         assertThat(manufacturerDO.getId(), nullValue());
         assertThat(manufacturerDO.getName(), equalTo("TESLA"));

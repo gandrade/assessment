@@ -57,7 +57,7 @@ public class CarDTO
         this(id, licensePlate, seatCount, convertible, rating, engineType);
         if (manufacturerDTO == null)
         {
-            this.manufacturerDTO = ManufacturerDTO.newBuilder().createNewManufacturerDTO();
+            this.manufacturerDTO = ManufacturerDTO.newBuilder().createManufacturerDTO();
         }
         else
         {

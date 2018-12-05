@@ -73,7 +73,7 @@ public class CarControllerTest
             .setManufacturerDTO(
                 ManufacturerDTO.newBuilder()
                     .setName("toyota")
-                    .createNewManufacturerDTO())
+                    .createManufacturerDTO())
             .createCarDTO();
         String payload = new ObjectMapper()
             .writeValueAsString(car);
@@ -119,7 +119,7 @@ public class CarControllerTest
             .setManufacturerDTO(
                 ManufacturerDTO.newBuilder()
                     .setName("TOYOTA")
-                    .createNewManufacturerDTO())
+                    .createManufacturerDTO())
             .createCarDTO();
 
         String payload = new ObjectMapper().writeValueAsString(car);
@@ -143,7 +143,7 @@ public class CarControllerTest
             .setManufacturerDTO(
                 ManufacturerDTO.newBuilder()
                     .setName("TOYOTA")
-                    .createNewManufacturerDTO())
+                    .createManufacturerDTO())
             .createCarDTO();
         String payload = new ObjectMapper()
             .writeValueAsString(car);
@@ -167,7 +167,7 @@ public class CarControllerTest
             .setManufacturerDTO(
                 ManufacturerDTO.newBuilder()
                     .setName("TOYOTA")
-                    .createNewManufacturerDTO())
+                    .createManufacturerDTO())
             .createCarDTO();
         String payload = new ObjectMapper()
             .writeValueAsString(car);
@@ -191,7 +191,7 @@ public class CarControllerTest
             .setManufacturerDTO(
                 ManufacturerDTO.newBuilder()
                     .setName("toyota")
-                    .createNewManufacturerDTO())
+                    .createManufacturerDTO())
             .createCarDTO();
         String payload = new ObjectMapper()
             .writeValueAsString(car);
@@ -213,7 +213,7 @@ public class CarControllerTest
             .setManufacturerDTO(
                 ManufacturerDTO.newBuilder()
                     .setName("toyota")
-                    .createNewManufacturerDTO())
+                    .createManufacturerDTO())
             .createCarDTO();
         String newPayload = new ObjectMapper().writeValueAsString(newCar);
         Object carId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
