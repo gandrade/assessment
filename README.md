@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gandrade/assessment.svg?branch=master)](https://travis-ci.org/gandrade/assessment) [![codebeat badge](https://codebeat.co/badges/fe97ba25-408a-4042-86a2-08ed20c8e44d)](https://codebeat.co/projects/github-com-gandrade-assessment-master) [![Known Vulnerabilities](https://snyk.io/test/github/gandrade/assessment/badge.svg)](https://snyk.io/test/github/gandrade/assessment)
+[![Build Status](https://travis-ci.org/gandrade/assessment.svg?branch=master)](https://travis-ci.org/gandrade/assessment) [![codebeat badge](https://codebeat.co/badges/fe97ba25-408a-4042-86a2-08ed20c8e44d)](https://codebeat.co/projects/github-com-gandrade-assessment-master) [![codecov](https://codecov.io/gh/gandrade/assessment/branch/master/graph/badge.svg)](https://codecov.io/gh/gandrade/assessment) [![Known Vulnerabilities](https://snyk.io/test/github/gandrade/assessment/badge.svg)](https://snyk.io/test/github/gandrade/assessment)
 
 
 # mytaxi backend applicant test
