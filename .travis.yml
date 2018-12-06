@@ -3,3 +3,14 @@ language: java
 before_install:
 - chmod +x mvnw
 
+# Keep Maven local repository between builds:
+cache:
+  directories:
+  - '$HOME/.m2/repository'
+
+script:
+- mvn test jacoco:report
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+
