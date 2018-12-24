@@ -55,7 +55,7 @@ public class DefaultDriverService implements DriverService
      * Creates a new driver.
      *
      * @param driverDO
-     * @return
+     * @return created driver
      * @throws ConstraintsViolationException if a driver already exists with the given username, ... .
      */
     @Override
@@ -94,8 +94,8 @@ public class DefaultDriverService implements DriverService
      * Update the location for a driver.
      *
      * @param driverId
-     * @param longitude
-     * @param latitude
+     * @param longitude Longitude coordinate
+     * @param latitude Latitude coordinate
      * @throws EntityNotFoundException
      */
     @Override
@@ -110,7 +110,7 @@ public class DefaultDriverService implements DriverService
     /**
      * Find all drivers by online state.
      *
-     * @param onlineStatus
+     * @param onlineStatus Indicate status for a driver
      */
     @Override
     public List<DriverDO> find(OnlineStatus onlineStatus)
