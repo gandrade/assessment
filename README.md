@@ -1,3 +1,8 @@
+_DISCLAIMER: After the code challenge has been delivered (commit: [1a601da](https://github.com/gandrade/assessment/commit/1a601da205e7cce74f55294ad3b193bcd5b28430)).
+Since there, I've progressed making code improvements and keeping it up-to-date from dependencies perspective and provide tooling to monitor and verify how healthy is the current code base._
+
+---
+
 [![Build Status](https://travis-ci.org/gandrade/assessment.svg?branch=master)](https://travis-ci.org/gandrade/assessment) [![codebeat badge](https://codebeat.co/badges/fe97ba25-408a-4042-86a2-08ed20c8e44d)](https://codebeat.co/projects/github-com-gandrade-assessment-master) [![codecov](https://codecov.io/gh/gandrade/assessment/branch/master/graph/badge.svg)](https://codecov.io/gh/gandrade/assessment) [![Known Vulnerabilities](https://snyk.io/test/github/gandrade/assessment/badge.svg)](https://snyk.io/test/github/gandrade/assessment)
 
 
