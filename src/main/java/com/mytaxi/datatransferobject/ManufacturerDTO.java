@@ -7,7 +7,7 @@ public class ManufacturerDTO
 
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Name can not be null!")
     private String name;
 
 

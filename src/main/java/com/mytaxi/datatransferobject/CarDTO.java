@@ -15,16 +15,17 @@ public class CarDTO
 
     private Long id;
 
-    @NotNull
+    @NotNull(message = "LicensePlate can not be null!")
     private String licensePlate;
 
-    @Positive
-    @Max(value = 5)
+    @Positive(message = "Only positive values allowed!")
+    @Max(message = "Maximum seatCount can not be greater than 5!", value = 5)
     private Integer seatCount;
+
     private Boolean convertible;
 
-    @Min(value = 0)
-    @Max(value = 5)
+    @Min(value = 0, message = "Minimum rating can not be less than 0!")
+    @Max(value = 5, message = "Maximum rating can not be greater than 5!")
     private Float rating;
 
     private EngineType engineType;
