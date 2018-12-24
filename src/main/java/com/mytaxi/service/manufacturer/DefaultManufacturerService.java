@@ -25,6 +25,6 @@ public class DefaultManufacturerService implements ManufacturerService
     @Override
     public ManufacturerDO findByNameIgnoreCase(String name) throws EntityNotFoundException
     {
-        return repository.findByNameIgnoreCase(name).orElseThrow(() -> new EntityNotFoundException(""));
+        return repository.findByNameIgnoreCase(name).orElseThrow(() -> new EntityNotFoundException("Manufacturer '" + name + "' already exists"));
     }
 }
