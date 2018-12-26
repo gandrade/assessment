@@ -36,6 +36,7 @@ public class MytaxiServerApplicantTestApplication implements WebMvcConfigurer
     @Override
     public void addInterceptors(InterceptorRegistry registry)
     {
-        registry.addInterceptor(new LoggingInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new LoggingInterceptor())
+                .addPathPatterns("/**");
     }
 }

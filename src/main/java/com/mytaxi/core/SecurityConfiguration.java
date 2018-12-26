@@ -32,7 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/").permitAll()
                 .mvcMatchers("/v1/**").authenticated()
                 .and()
-                .httpBasic().and().formLogin();
+                .httpBasic()
+                .and()
+                .formLogin();
 
         allowH2Console(http);
     }
