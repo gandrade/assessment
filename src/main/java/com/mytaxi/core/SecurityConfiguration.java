@@ -1,5 +1,6 @@
 package com.mytaxi.core;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,13 +16,25 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Value("${mytaxi.username:mytaxi}")
+    private String username;
+
+    @Value("${mytaxi.password:mytaxi}")
+    private String password;
+
+    @Value("${mytaxi.roles:USER")
+    private String defaultRole;
+
     @Bean
     public UserDetailsService userDetailsService()
     {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        manager.createUser(User.withUsername("mytaxi").password(encoder.encode("mytaxi")).roles("USER").build());
-        return manager;
+        inMemoryUserDetailsManager.createUser(User.withUsername(username)
+                .password(encoder.encode(password))
+                .roles(defaultRole)
+                .build());
+        return inMemoryUserDetailsManager;
     }
 
 
