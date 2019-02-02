@@ -1,5 +1,6 @@
 package com.mytaxi.controller.specification;
 
+import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainobject.DriverDO_;
@@ -19,7 +20,8 @@ public class DriverDOSpecification
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.addAll(createPredicates(root, builder, driverDTO));
-            predicates.addAll(CarDOSpecification.createPredicates(root.get(DriverDO_.carDO), builder, driverDTO.getCarDTO()));
+            CarDTO carDTO = driverDTO.getCarDTO();
+            predicates.addAll(CarDOSpecification.createPredicates(root.get(DriverDO_.carDO), builder, carDTO));
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
