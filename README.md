@@ -6,7 +6,7 @@ Since there, I've progressed making code improvements and keeping it up-to-date 
 [![Build Status](https://travis-ci.org/gandrade/assessment.svg?branch=master)](https://travis-ci.org/gandrade/assessment) [![codebeat badge](https://codebeat.co/badges/fe97ba25-408a-4042-86a2-08ed20c8e44d)](https://codebeat.co/projects/github-com-gandrade-assessment-master) [![codecov](https://codecov.io/gh/gandrade/assessment/branch/master/graph/badge.svg)](https://codecov.io/gh/gandrade/assessment) [![Known Vulnerabilities](https://snyk.io/test/github/gandrade/assessment/badge.svg)](https://snyk.io/test/github/gandrade/assessment)
 
 
-# mytaxi backend applicant test
+# :oncoming_taxi: mytaxi backend applicant test 
 
 ## Task Description
 You should be able to start the example application by executing com.mytaxi.MytaxiServerApplicantTestApplication, which starts a webserver on port 8080 (http://localhost:8080) and serves SwaggerUI where can inspect and try existing endpoints.
