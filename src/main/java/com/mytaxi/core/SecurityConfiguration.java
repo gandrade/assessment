@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${mytaxi.password:mytaxi}")
     private String password;
 
-    @Value("${mytaxi.roles:USER")
+    @Value("${mytaxi.roles:USER}")
     private String defaultRole;
 
     @Bean
