@@ -1,44 +1,40 @@
 package com.mytaxi.controller.specification;
 
-import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
-import com.mytaxi.domainobject.DriverDO_;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import org.springframework.data.jpa.domain.Specification;
+import static com.mytaxi.domainobject.DriverDO_.*;
 
-public class DriverDOSpecification
-{
+@Component
+public class DriverDOSpecification implements BaseSpecification<DriverDTO, DriverDO> {
 
-    public static Specification<DriverDO> makeDriverDOSpecification(DriverDTO driverDTO)
-    {
-        return (root, query, builder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            predicates.addAll(createPredicates(root, builder, driverDTO));
-            CarDTO carDTO = driverDTO.getCarDTO();
-            predicates.addAll(CarDOSpecification.createPredicates(root.get(DriverDO_.carDO), builder, carDTO));
-            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
-        };
+    private CarDOSpecification carDOSpecification;
+
+    public DriverDOSpecification(CarDOSpecification carDOSpecification) {
+        this.carDOSpecification = carDOSpecification;
     }
 
-    private static List<Predicate> createPredicates(Path<DriverDO> root, CriteriaBuilder builder, DriverDTO driverDTO) {
+    @Override
+    public Collection<? extends Predicate> createPredicates(Root<DriverDO> path, CriteriaBuilder builder, DriverDTO dtoObject) {
         List<Predicate> predicates = new ArrayList<>();
-        if (driverDTO.getUsername() != null)
-        {
-            Predicate username = builder.equal(root.get(DriverDO_.USERNAME), driverDTO.getUsername().toLowerCase());
-            predicates.add(username);
-        }
-
-        if (driverDTO.getOnlineStatus() != null)
-        {
-            Predicate onlineStatus = builder.equal(root.get(DriverDO_.ONLINE_STATUS), driverDTO.getOnlineStatus());
-            predicates.add(onlineStatus);
-        }
+        predicates.add(builder.equal(path.get(USERNAME), dtoObject.getUsername() == null ? null : dtoObject.getUsername().toLowerCase()));
+        predicates.add(builder.equal(path.get(ONLINE_STATUS), dtoObject.getOnlineStatus()));
+        predicates.addAll(carDOSpecification.createPredicates(path.get(carDO), builder, dtoObject.getCarDTO()));
         return predicates;
     }
+
+    @Override
+    public Collection<? extends Predicate> createPredicates(Path<DriverDO> path, CriteriaBuilder builder, DriverDTO dtoObject) {
+        return null;
+    }
+
 }

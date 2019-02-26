@@ -37,14 +37,12 @@ public class DriverController
 {
 
     private final DriverService driverService;
+    private final DriverDOSpecification driverDOSpecification;
 
-
-    @Autowired
-    public DriverController(final DriverService driverService, final CarService carService)
-    {
+    public DriverController(DriverService driverService, DriverDOSpecification driverDOSpecification) {
         this.driverService = driverService;
+        this.driverDOSpecification = driverDOSpecification;
     }
-
 
     @GetMapping("/{driverId}")
     public DriverDTO getDriver(@Valid @PathVariable long driverId) throws EntityNotFoundException
@@ -79,7 +77,8 @@ public class DriverController
 
 
     @PutMapping("/{driverId}/cars/{carId}/select")
-    public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
+    public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId)
+            throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
     {
         return DriverMapper.makeDriverDTO(driverService.select(driverId, carId));
     }
@@ -95,7 +94,7 @@ public class DriverController
     @GetMapping
     public List<DriverDTO> findDrivers(DriverDTO driverDTO)
     {
-        Specification<DriverDO> driverSpecification = DriverDOSpecification.makeDriverDOSpecification(driverDTO);
+        Specification<DriverDO> driverSpecification = driverDOSpecification.makeSpecification(driverDTO);
         return DriverMapper.makeDriverDTOList(driverService.findAll(driverSpecification));
     }
 
