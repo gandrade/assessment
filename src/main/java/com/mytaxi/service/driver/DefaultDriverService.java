@@ -9,12 +9,13 @@ import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
-import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service to encapsulate the link between DAO and controller and to have business logic for some driver specific things.
@@ -127,7 +128,8 @@ public class DefaultDriverService implements DriverService
         {
             throw new EntityNotFoundException("Could not find car with id: " + carId);
         }
-        if (driverRepository.existsByIdAndCarDO_IdIsNotNull(driverId)){
+        if (driverRepository.existsByIdAndCarDO_IdIsNotNull(driverId))
+        {
             throw new ConstraintsViolationException("Driver " + driverId + " already has a car selected.");
         }
         CarDO carDO = carService.findAvailable(carId);

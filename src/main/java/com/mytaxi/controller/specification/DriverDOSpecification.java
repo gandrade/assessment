@@ -15,16 +15,21 @@ import java.util.List;
 import static com.mytaxi.domainobject.DriverDO_.*;
 
 @Component
-public class DriverDOSpecification implements BaseSpecification<DriverDTO, DriverDO> {
+public class DriverDOSpecification implements BaseSpecification<DriverDTO, DriverDO>
+{
 
     private CarDOSpecification carDOSpecification;
 
-    public DriverDOSpecification(CarDOSpecification carDOSpecification) {
+
+    public DriverDOSpecification(CarDOSpecification carDOSpecification)
+    {
         this.carDOSpecification = carDOSpecification;
     }
 
+
     @Override
-    public Collection<? extends Predicate> createPredicates(Root<DriverDO> path, CriteriaBuilder builder, DriverDTO dtoObject) {
+    public Collection<? extends Predicate> createPredicates(Root<DriverDO> path, CriteriaBuilder builder, DriverDTO dtoObject)
+    {
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(builder.equal(path.get(USERNAME), dtoObject.getUsername() == null ? null : dtoObject.getUsername().toLowerCase()));
         predicates.add(builder.equal(path.get(ONLINE_STATUS), dtoObject.getOnlineStatus()));
@@ -32,8 +37,10 @@ public class DriverDOSpecification implements BaseSpecification<DriverDTO, Drive
         return predicates;
     }
 
+
     @Override
-    public Collection<? extends Predicate> createPredicates(Path<DriverDO> path, CriteriaBuilder builder, DriverDTO dtoObject) {
+    public Collection<? extends Predicate> createPredicates(Path<DriverDO> path, CriteriaBuilder builder, DriverDTO dtoObject)
+    {
         return null;
     }
 

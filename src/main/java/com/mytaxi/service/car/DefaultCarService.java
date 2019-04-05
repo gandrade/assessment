@@ -7,10 +7,11 @@ import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.driver.DefaultDriverService;
 import com.mytaxi.service.manufacturer.ManufacturerService;
-import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DefaultCarService implements CarService

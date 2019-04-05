@@ -13,21 +13,24 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface BaseSpecification<T, E> {
+public interface BaseSpecification<T, E>
+{
 
-    default Specification<E> makeSpecification(T dtoObject) {
+    default Specification<E> makeSpecification(T dtoObject)
+    {
 
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.addAll(this.createPredicates(root, builder, dtoObject));
             List<Predicate> filteredPredicates = predicates.stream()
-                    .filter(predicate -> predicate instanceof ComparisonPredicate &&
-                            ((LiteralExpression)((ComparisonPredicate) predicate).getRightHandOperand()).getLiteral() != null)
-                    .collect(Collectors.toList());
+                .filter(predicate -> predicate instanceof ComparisonPredicate &&
+                    ((LiteralExpression) ((ComparisonPredicate) predicate).getRightHandOperand()).getLiteral() != null)
+                .collect(Collectors.toList());
             return builder.and(filteredPredicates.toArray(new Predicate[filteredPredicates.size()]));
         };
     }
 
     Collection<? extends Predicate> createPredicates(Root<E> path, CriteriaBuilder builder, T dtoObject);
+
     Collection<? extends Predicate> createPredicates(Path<E> path, CriteriaBuilder builder, T dtoObject);
 }

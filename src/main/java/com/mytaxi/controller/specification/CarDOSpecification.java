@@ -15,16 +15,21 @@ import java.util.Set;
 import static com.mytaxi.domainobject.CarDO_.*;
 
 @Component
-public class CarDOSpecification implements BaseSpecification<CarDTO, CarDO> {
+public class CarDOSpecification implements BaseSpecification<CarDTO, CarDO>
+{
 
     private ManufacturerDOSpecification manufacturerDOSpecification;
 
-    public CarDOSpecification(ManufacturerDOSpecification manufacturerDOSpecification) {
+
+    public CarDOSpecification(ManufacturerDOSpecification manufacturerDOSpecification)
+    {
         this.manufacturerDOSpecification = manufacturerDOSpecification;
     }
 
+
     @Override
-    public Collection<? extends Predicate> createPredicates(Path<CarDO> path, CriteriaBuilder builder, CarDTO dtoObject) {
+    public Collection<? extends Predicate> createPredicates(Path<CarDO> path, CriteriaBuilder builder, CarDTO dtoObject)
+    {
         Set<Predicate> predicates = new HashSet<>();
         predicates.add(builder.equal(path.get(SEAT_COUNT), dtoObject.getSeatCount()));
         predicates.add(builder.equal(path.get(LICENSE_PLATE), dtoObject.getLicensePlate() == null ? null : dtoObject.getLicensePlate().toUpperCase()));
@@ -35,8 +40,10 @@ public class CarDOSpecification implements BaseSpecification<CarDTO, CarDO> {
         return predicates;
     }
 
+
     @Override
-    public Collection<? extends Predicate> createPredicates(Root<CarDO> path, CriteriaBuilder builder, CarDTO dtoObject) {
+    public Collection<? extends Predicate> createPredicates(Root<CarDO> path, CriteriaBuilder builder, CarDTO dtoObject)
+    {
         return null;
     }
 }

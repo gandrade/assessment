@@ -4,6 +4,7 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+
 import java.util.List;
 
 public interface CarService
