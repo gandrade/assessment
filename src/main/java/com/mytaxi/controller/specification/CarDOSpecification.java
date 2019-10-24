@@ -9,6 +9,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import static com.mytaxi.domainobject.CarDO_.*;
 public class CarDOSpecification implements BaseSpecification<CarDTO, CarDO>
 {
 
-    private ManufacturerDOSpecification manufacturerDOSpecification;
+    private final ManufacturerDOSpecification manufacturerDOSpecification;
 
 
     public CarDOSpecification(ManufacturerDOSpecification manufacturerDOSpecification)
@@ -30,13 +31,17 @@ public class CarDOSpecification implements BaseSpecification<CarDTO, CarDO>
     @Override
     public Collection<? extends Predicate> createPredicates(Path<CarDO> path, CriteriaBuilder builder, CarDTO dtoObject)
     {
-        Set<Predicate> predicates = new HashSet<>();
+        if (dtoObject == null) {
+            return Collections.emptySet();
+        }
+        final Set<Predicate> predicates = new HashSet<>();
         predicates.add(builder.equal(path.get(SEAT_COUNT), dtoObject.getSeatCount()));
         predicates.add(builder.equal(path.get(LICENSE_PLATE), dtoObject.getLicensePlate() == null ? null : dtoObject.getLicensePlate().toUpperCase()));
         predicates.add(builder.equal(path.get(CONVERTIBLE), dtoObject.getConvertible()));
         predicates.add(builder.equal(path.get(RATING), dtoObject.getRating()));
         predicates.add(builder.equal(path.get(ENGINE_TYPE), dtoObject.getEngineType()));
-        predicates.addAll(manufacturerDOSpecification.createPredicates(path.get(MANUFACTURER_DO), builder, dtoObject.getManufacturerDTO()));
+        Collection<? extends Predicate> manufacturerPredicates = manufacturerDOSpecification.createPredicates(path.get(MANUFACTURER_DO), builder, dtoObject.getManufacturerDTO());
+        predicates.addAll(manufacturerPredicates);
         return predicates;
     }
 

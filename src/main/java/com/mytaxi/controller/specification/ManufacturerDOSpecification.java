@@ -8,9 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static com.mytaxi.domainobject.ManufacturerDO_.NAME;
 
@@ -18,9 +16,13 @@ import static com.mytaxi.domainobject.ManufacturerDO_.NAME;
 public class ManufacturerDOSpecification implements BaseSpecification<ManufacturerDTO, ManufacturerDO>
 {
 
-    public List<Predicate> createPredicates(Path<ManufacturerDO> path, CriteriaBuilder builder, ManufacturerDTO manufacturerDTO)
+    @Override
+    public Collection<? extends Predicate> createPredicates(Path<ManufacturerDO> path, CriteriaBuilder builder, ManufacturerDTO manufacturerDTO)
     {
-        List<Predicate> predicates = new ArrayList<>();
+        if (manufacturerDTO == null) {
+            return Collections.emptySet();
+        }
+        Set<Predicate> predicates = new HashSet<>();
         predicates.add(builder.equal(path.get(NAME), manufacturerDTO.getName() == null ? null : manufacturerDTO.getName().toUpperCase()));
         return predicates;
     }

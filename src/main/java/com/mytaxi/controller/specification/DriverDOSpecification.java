@@ -8,9 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static com.mytaxi.domainobject.DriverDO_.*;
 
@@ -18,7 +16,7 @@ import static com.mytaxi.domainobject.DriverDO_.*;
 public class DriverDOSpecification implements BaseSpecification<DriverDTO, DriverDO>
 {
 
-    private CarDOSpecification carDOSpecification;
+    private final CarDOSpecification carDOSpecification;
 
 
     public DriverDOSpecification(CarDOSpecification carDOSpecification)
@@ -30,10 +28,14 @@ public class DriverDOSpecification implements BaseSpecification<DriverDTO, Drive
     @Override
     public Collection<? extends Predicate> createPredicates(Root<DriverDO> path, CriteriaBuilder builder, DriverDTO dtoObject)
     {
-        List<Predicate> predicates = new ArrayList<>();
+        if (dtoObject == null) {
+            return Collections.emptySet();
+        }
+        Set<Predicate> predicates = new HashSet<>();
         predicates.add(builder.equal(path.get(USERNAME), dtoObject.getUsername() == null ? null : dtoObject.getUsername().toLowerCase()));
         predicates.add(builder.equal(path.get(ONLINE_STATUS), dtoObject.getOnlineStatus()));
-        predicates.addAll(carDOSpecification.createPredicates(path.get(carDO), builder, dtoObject.getCarDTO()));
+        Collection<? extends Predicate> carPredicates = carDOSpecification.createPredicates(path.get(carDO), builder, dtoObject.getCarDTO());
+        predicates.addAll(carPredicates);
         return predicates;
     }
 
