@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,6 +34,13 @@ public class DriverControllerTest
     @Autowired
     private MockMvc mockMvc;
 
+    @Test
+    @WithAnonymousUser
+    public void shouldReturn401UnauthorizedGettingAllDrivers() throws Exception
+    {
+        this.mockMvc.perform(get("/v1/drivers"))
+            .andExpect(status().isUnauthorized());
+    }
 
     @Test
     public void shouldReturnAllDrivers() throws Exception
@@ -42,12 +51,35 @@ public class DriverControllerTest
             .andExpect(jsonPath("$.length()", is(8)));
     }
 
+    @Test
+    public void shouldReturnDriversNonConvertibleCarsOnly() throws Exception
+    {
+        this.mockMvc.perform(get("/v1/drivers")
+            .param("carDTO.convertible", "false"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()", is(0)));
+    }
+
+    @Test
+    @DirtiesContext
+    public void shouldReturnDriversTeslaCarsOnly() throws Exception
+    {
+        this.mockMvc.perform(put("/v1/drivers/8/cars/5/select")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
+        this.mockMvc.perform(get("/v1/drivers")
+            .param("carDTO.manufacturerDTO.name", "TESLA"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.[0].id", is(notNullValue())))
+            .andExpect(jsonPath("$.length()", is(1)));
+    }
+
 
     @Test
     @DirtiesContext
     public void shouldReturnADriverWithNoCarAssigned() throws Exception
     {
-
         this.mockMvc.perform(get("/v1/drivers")
             .param("username", "driver08"))
             .andExpect(status().isOk())
