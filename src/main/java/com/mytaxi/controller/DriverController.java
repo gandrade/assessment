@@ -9,8 +9,14 @@ import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
 import com.mytaxi.service.driver.DriverService;
+
 import java.util.List;
 import javax.validation.Valid;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -39,15 +45,19 @@ public class DriverController
     private final DriverService driverService;
     private final DriverDOSpecification driverDOSpecification;
 
-    public DriverController(DriverService driverService, DriverDOSpecification driverDOSpecification) {
+
+    public DriverController(DriverService driverService, DriverDOSpecification driverDOSpecification)
+    {
         this.driverService = driverService;
         this.driverDOSpecification = driverDOSpecification;
     }
 
+
     @GetMapping("/{driverId}")
     public DriverDTO getDriver(@Valid @PathVariable long driverId) throws EntityNotFoundException
     {
-        return DriverMapper.makeDriverDTO(driverService.find(driverId));
+        DriverDO driverDO = driverService.find(driverId);
+        return DriverMapper.makeDriverDTO(driverDO);
     }
 
 
@@ -56,7 +66,8 @@ public class DriverController
     public DriverDTO createDriver(@Valid @RequestBody DriverDTO driverDTO) throws ConstraintsViolationException
     {
         DriverDO driverDO = DriverMapper.makeDriverDO(driverDTO);
-        return DriverMapper.makeDriverDTO(driverService.create(driverDO));
+        DriverDO driverDOCreated = driverService.create(driverDO);
+        return DriverMapper.makeDriverDTO(driverDOCreated);
     }
 
 
@@ -78,9 +89,10 @@ public class DriverController
 
     @PutMapping("/{driverId}/cars/{carId}/select")
     public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId)
-            throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
+        throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
     {
-        return DriverMapper.makeDriverDTO(driverService.select(driverId, carId));
+        DriverDO driverDO = driverService.select(driverId, carId);
+        return DriverMapper.makeDriverDTO(driverDO);
     }
 
 
@@ -95,13 +107,15 @@ public class DriverController
     public List<DriverDTO> findDrivers(DriverDTO driverDTO)
     {
         Specification<DriverDO> driverSpecification = driverDOSpecification.makeSpecification(driverDTO);
-        return DriverMapper.makeDriverDTOList(driverService.findAll(driverSpecification));
+        List<DriverDO> drivers = driverService.findAll(driverSpecification);
+        return DriverMapper.makeDriverDTOList(drivers);
     }
 
 
     @InitBinder
-    public void initBinder(WebDataBinder binder)
+    public void initBinder(WebDataBinder webDataBinder)
     {
-        binder.initDirectFieldAccess();
+        webDataBinder.initDirectFieldAccess();
     }
+
 }

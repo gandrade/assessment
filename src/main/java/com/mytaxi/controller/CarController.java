@@ -6,8 +6,10 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
+
 import java.util.List;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,15 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * All operations with a car will be routed by this controller.
+ * <p/>
+ */
 @RequestMapping("v1/cars")
 @RestController
 public class CarController
 {
 
-    private CarService carService;
+    private final CarService carService;
 
 
-    @Autowired
     public CarController(final CarService carService)
     {
         this.carService = carService;
@@ -38,14 +43,16 @@ public class CarController
     @GetMapping
     public List<CarDTO> getCars()
     {
-        return CarMapper.makeCarDTOList(carService.findAll());
+        List<CarDO> cars = carService.findAll();
+        return CarMapper.makeCarDTOList(cars);
     }
 
 
     @GetMapping("/{carId}")
     public CarDTO getCar(@Valid @PathVariable long carId) throws EntityNotFoundException
     {
-        return CarMapper.makeCarDTO(carService.find(carId));
+        CarDO carDO = carService.find(carId);
+        return CarMapper.makeCarDTO(carDO);
     }
 
 

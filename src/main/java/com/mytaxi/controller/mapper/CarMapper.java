@@ -1,7 +1,9 @@
 package com.mytaxi.controller.mapper;
 
 import com.mytaxi.datatransferobject.CarDTO;
+import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.CarDO;
+import com.mytaxi.domainobject.ManufacturerDO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ public class CarMapper
         {
             return null;
         }
+        ManufacturerDTO manufacturerDTO = ManufacturerMapper.makeManufacturerDTO(carDO.getManufacturerDO());
         return CarDTO.newBuilder()
             .setId(carDO.getId())
             .setConvertible(carDO.getConvertible())
@@ -22,20 +25,21 @@ public class CarMapper
             .setEngineType(carDO.getEngineType())
             .setRating(carDO.getRating())
             .setSeatCount(carDO.getSeatCount())
-            .setManufacturerDTO(ManufacturerMapper.makeManufacturerDTO(carDO.getManufacturerDO()))
+            .setManufacturerDTO(manufacturerDTO)
             .createCarDTO();
     }
 
 
     public static CarDO makeDriverDO(CarDTO carDTO)
     {
+        ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(carDTO.getManufacturerDTO());
         return new CarDO(
             carDTO.getLicensePlate(),
             carDTO.getSeatCount(),
             carDTO.getConvertible(),
             carDTO.getRating(),
             carDTO.getEngineType(),
-            ManufacturerMapper.makeManufacturerDO(carDTO.getManufacturerDTO()));
+            manufacturerDO);
     }
 
 

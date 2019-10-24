@@ -16,15 +16,22 @@ public class DefaultManufacturerService implements ManufacturerService
     private final ManufacturerRepository repository;
 
 
+    /**
+     * Default constructor.
+     *
+     * @param repository {@link ManufacturerRepository}
+     */
     public DefaultManufacturerService(ManufacturerRepository repository)
     {
         this.repository = repository;
     }
 
 
+    /** {@inheritDoc} */
     @Override
     public ManufacturerDO findByNameIgnoreCase(String name) throws EntityNotFoundException
     {
-        return repository.findByNameIgnoreCase(name).orElseThrow(() -> new EntityNotFoundException("Manufacturer '" + name + "' already exists"));
+        return repository.findByNameIgnoreCase(name)
+            .orElseThrow(() -> new EntityNotFoundException("Manufacturer '" + name + "' already exists"));
     }
 }
