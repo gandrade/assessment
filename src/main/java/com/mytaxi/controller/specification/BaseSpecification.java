@@ -18,15 +18,13 @@ public interface BaseSpecification<T, E>
 
     default Specification<E> makeSpecification(T dtoObject)
     {
-
         return (root, query, builder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            predicates.addAll(this.createPredicates(root, builder, dtoObject));
-            List<Predicate> filteredPredicates = predicates.stream()
+            List<Predicate> predicates = new ArrayList<>(this.createPredicates(root, builder, dtoObject));
+            Predicate[] filteredPredicates = predicates.stream()
                 .filter(predicate -> predicate instanceof ComparisonPredicate &&
                     ((LiteralExpression) ((ComparisonPredicate) predicate).getRightHandOperand()).getLiteral() != null)
-                .collect(Collectors.toList());
-            return builder.and(filteredPredicates.toArray(new Predicate[filteredPredicates.size()]));
+                .toArray(Predicate[]::new);
+            return builder.and(filteredPredicates);
         };
     }
 

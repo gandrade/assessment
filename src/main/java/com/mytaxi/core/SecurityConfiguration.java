@@ -12,18 +12,23 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+/**
+ * Configure basic authentication for accessing API endpoints.
+ */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter
+{
 
-    @Value("${mytaxi.username:mytaxi}")
+    @Value("${security.username}")
     private String username;
 
-    @Value("${mytaxi.password:mytaxi}")
+    @Value("${security.password}")
     private String password;
 
-    @Value("${mytaxi.roles:USER}")
-    private String defaultRole;
+    @Value("${security.roles}")
+    private String[] roles;
+
 
     @Bean
     public UserDetailsService userDetailsService()
@@ -31,9 +36,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         inMemoryUserDetailsManager.createUser(User.withUsername(username)
-                .password(encoder.encode(password))
-                .roles(defaultRole)
-                .build());
+            .password(encoder.encode(password))
+            .roles(roles)
+            .build());
         return inMemoryUserDetailsManager;
     }
 
@@ -42,12 +47,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .mvcMatchers("/").permitAll()
-                .mvcMatchers("/v1/**").authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .formLogin();
+            .mvcMatchers("/").permitAll()
+            .mvcMatchers("/v1/**").authenticated()
+            .and()
+            .httpBasic()
+            .and()
+            .formLogin();
 
         allowH2Console(http);
     }
@@ -56,8 +61,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private void allowH2Console(HttpSecurity http) throws Exception
     {
         http.csrf()
-                .disable()
-                .headers()
-                .frameOptions().disable();
+            .disable()
+            .headers()
+            .frameOptions().disable();
     }
 }

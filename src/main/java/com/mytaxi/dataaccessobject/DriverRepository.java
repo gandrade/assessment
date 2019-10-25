@@ -15,10 +15,28 @@ import java.util.Optional;
 public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpecificationExecutor<DriverDO>
 {
 
+    /**
+     * Find for Online drivers.
+     *
+     * @param onlineStatus {@link OnlineStatus}
+     * @return List of online drivers.
+     */
     List<DriverDO> findByOnlineStatus(OnlineStatus onlineStatus);
 
+    /**
+     * Find driver by identifier and {@link OnlineStatus}
+     *
+     * @param driverId Driver's Identifier
+     * @param online {@link OnlineStatus}
+     * @return Online driver
+     */
     Optional<DriverDO> findByIdAndOnlineStatus(Long driverId, OnlineStatus online);
 
-    // @Query("SELECT CASE WHEN COUNT(driver) > 0 THEN true ELSE false END FROM DriverDO driver INNER JOIN driver.carDO as carDO WHERE carDO IS NOT NULL AND driver.id=:id ")
+    /**
+     * Checks whether exists an assigned car for a given driver identifier.
+     *
+     * @param driverId Driver identifier
+     * @return true when exists and false otherwise.
+     */
     boolean existsByIdAndCarDO_IdIsNotNull(Long driverId);
 }

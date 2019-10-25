@@ -74,8 +74,8 @@ Please include instructions how to authenticate/login, so that we can test the e
 ### Authentication instructions
 
 ```
-user: mytaxi
-pass: mytaxi
+username: mytaxi
+password: mytaxi
 ```
 
 ---

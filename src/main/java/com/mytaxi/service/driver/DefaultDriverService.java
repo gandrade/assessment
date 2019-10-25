@@ -31,6 +31,11 @@ public class DefaultDriverService implements DriverService
     private final CarService carService;
 
 
+    /**
+     * Default constructor.
+     * @param driverRepository {@link DriverRepository}
+     * @param carService {@link CarService}
+     */
     public DefaultDriverService(final DriverRepository driverRepository, CarService carService)
     {
         this.driverRepository = driverRepository;
@@ -38,13 +43,7 @@ public class DefaultDriverService implements DriverService
     }
 
 
-    /**
-     * Selects a driver by id.
-     *
-     * @param driverId
-     * @return found driver
-     * @throws EntityNotFoundException if no driver with the given id was found.
-     */
+    /** {@inheritDoc} */
     @Override
     public DriverDO find(Long driverId) throws EntityNotFoundException
     {
@@ -52,13 +51,7 @@ public class DefaultDriverService implements DriverService
     }
 
 
-    /**
-     * Creates a new driver.
-     *
-     * @param driverDO
-     * @return created driver
-     * @throws ConstraintsViolationException if a driver already exists with the given username, ... .
-     */
+    /** {@inheritDoc} */
     @Override
     public DriverDO create(DriverDO driverDO) throws ConstraintsViolationException
     {
@@ -76,12 +69,7 @@ public class DefaultDriverService implements DriverService
     }
 
 
-    /**
-     * Deletes an existing driver by id.
-     *
-     * @param driverId
-     * @throws EntityNotFoundException if no driver with the given id was found.
-     */
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public void delete(Long driverId) throws EntityNotFoundException
@@ -91,14 +79,7 @@ public class DefaultDriverService implements DriverService
     }
 
 
-    /**
-     * Update the location for a driver.
-     *
-     * @param driverId
-     * @param longitude Longitude coordinate
-     * @param latitude Latitude coordinate
-     * @throws EntityNotFoundException
-     */
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public void updateLocation(long driverId, double longitude, double latitude) throws EntityNotFoundException
@@ -107,12 +88,7 @@ public class DefaultDriverService implements DriverService
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
     }
 
-
-    /**
-     * Find all drivers by online state.
-     *
-     * @param onlineStatus Indicate status for a driver
-     */
+    /** {@inheritDoc} */
     @Override
     public List<DriverDO> find(OnlineStatus onlineStatus)
     {
@@ -120,6 +96,7 @@ public class DefaultDriverService implements DriverService
     }
 
 
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public DriverDO select(Long driverId, Long carId) throws EntityNotFoundException, CarAlreadyInUseException, ConstraintsViolationException
@@ -138,7 +115,7 @@ public class DefaultDriverService implements DriverService
         return driverDO;
     }
 
-
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public void deselect(Long driverId, Long carId) throws EntityNotFoundException
@@ -147,7 +124,7 @@ public class DefaultDriverService implements DriverService
         carDO.setDriverDO(null);
     }
 
-
+    /** {@inheritDoc} */
     @Override
     public List<DriverDO> findAll(Specification<DriverDO> spec)
     {
