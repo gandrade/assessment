@@ -24,9 +24,7 @@ public interface BaseSpecification<T, E>
                 .filter(predicate -> predicate instanceof ComparisonPredicate &&
                     ((LiteralExpression) ((ComparisonPredicate) predicate).getRightHandOperand()).getLiteral() != null)
                 .toArray(Predicate[]::new);
-            //                .collect(Collectors.toList());
             return builder.and(filteredPredicates);
-//            return builder.and(filteredPredicates.toArray(new Predicate[filteredPredicates.size()]));
         };
     }
 
