@@ -37,11 +37,9 @@ public class ManufacturerMapperTest
     public void shouldMakeManufacturerDOFilter()
     {
         ManufacturerCriteriaDTO manufacturerDTO = ManufacturerCriteriaDTO.newBuilder()
-            .setId(123l)
             .setName("Tesla")
             .createManufacturerDTO();
         ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
-        assertThat(manufacturerDO.getId(), nullValue());
         assertThat(manufacturerDO.getName(), equalTo("TESLA"));
     }
 }

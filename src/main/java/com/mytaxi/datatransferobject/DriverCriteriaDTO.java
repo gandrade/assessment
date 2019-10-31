@@ -12,14 +12,8 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DriverCriteriaDTO
 {
-    @JsonIgnore
-    private Long id;
-
     @NotNull(message = "Username can not be null!")
     private String username;
-
-    @NotNull(message = "Password can not be null!")
-    private String password;
 
     private GeoCoordinate coordinate;
 
@@ -33,11 +27,9 @@ public class DriverCriteriaDTO
     }
 
 
-    private DriverCriteriaDTO(Long id, String username, String password, GeoCoordinate coordinate, CarCriteriaDTO carDTO)
+    private DriverCriteriaDTO(String username, GeoCoordinate coordinate, CarCriteriaDTO carDTO)
     {
-        this.id = id;
         this.username = username;
-        this.password = password;
         this.coordinate = coordinate;
         this.carDTO = carDTO;
     }
@@ -49,22 +41,9 @@ public class DriverCriteriaDTO
     }
 
 
-    @JsonProperty
-    public Long getId()
-    {
-        return id;
-    }
-
-
     public String getUsername()
     {
         return username;
-    }
-
-
-    public String getPassword()
-    {
-        return password;
     }
 
 
@@ -89,30 +68,14 @@ public class DriverCriteriaDTO
 
     public static class DriverDTOBuilder
     {
-        private Long id;
         private String username;
-        private String password;
         private GeoCoordinate coordinate;
         private CarCriteriaDTO carDTO;
-
-
-        public DriverDTOBuilder setId(Long id)
-        {
-            this.id = id;
-            return this;
-        }
 
 
         public DriverDTOBuilder setUsername(String username)
         {
             this.username = username;
-            return this;
-        }
-
-
-        public DriverDTOBuilder setPassword(String password)
-        {
-            this.password = password;
             return this;
         }
 
@@ -133,7 +96,7 @@ public class DriverCriteriaDTO
 
         public DriverCriteriaDTO createDriverDTO()
         {
-            return new DriverCriteriaDTO(id, username, password, coordinate, carDTO);
+            return new DriverCriteriaDTO(username, coordinate, carDTO);
         }
     }
 }

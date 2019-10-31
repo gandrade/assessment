@@ -17,9 +17,8 @@ public class ManufacturerCriteriaDTO
     }
 
 
-    private ManufacturerCriteriaDTO(Long id, String name)
+    private ManufacturerCriteriaDTO(String name)
     {
-        this.id = id;
         this.name = name;
     }
 
@@ -38,15 +37,7 @@ public class ManufacturerCriteriaDTO
 
     public static class ManufacturerDTOBuilder
     {
-        private Long id;
         private String name;
-
-
-        public ManufacturerDTOBuilder setId(Long id)
-        {
-            this.id = id;
-            return this;
-        }
 
 
         public ManufacturerDTOBuilder setName(String name)
@@ -58,7 +49,7 @@ public class ManufacturerCriteriaDTO
 
         public ManufacturerCriteriaDTO createManufacturerDTO()
         {
-            return new ManufacturerCriteriaDTO(id, name);
+            return new ManufacturerCriteriaDTO(name);
         }
     }
 

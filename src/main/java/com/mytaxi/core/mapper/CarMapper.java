@@ -61,6 +61,10 @@ public class CarMapper
      */
     public static CarDO makeDriverDO(CarCriteriaDTO carCriteriaDTO)
     {
+        if (carCriteriaDTO == null) {
+            return null;
+        }
+
         ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(carCriteriaDTO.getManufacturerDTO());
         return new CarDO(
             carCriteriaDTO.getLicensePlate(),

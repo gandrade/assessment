@@ -27,8 +27,12 @@ interface DefaultSpecificationExecutor<T>
         return (Specification<T>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>(this.createPredicates(root, builder, doObject));
             Predicate[] filteredPredicates = predicates.stream()
-                .filter(predicate -> predicate instanceof ComparisonPredicate &&
-                    ((LiteralExpression) ((ComparisonPredicate) predicate).getRightHandOperand()).getLiteral() != null)
+                .filter(predicate -> predicate instanceof ComparisonPredicate)
+                .filter(predicate -> {
+                    Expression rightHandOperand = ((ComparisonPredicate) predicate).getRightHandOperand();
+                    Object literal = ((LiteralExpression) rightHandOperand).getLiteral();
+                    return literal != null;
+                })
                 .toArray(Predicate[]::new);
             return builder.and(filteredPredicates);
         };

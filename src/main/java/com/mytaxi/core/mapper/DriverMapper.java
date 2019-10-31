@@ -29,9 +29,12 @@ public class DriverMapper
      */
     public static DriverDO makeDriverDO(DriverCriteriaDTO driverDTO)
     {
-        DriverDO driverDO = new DriverDO(driverDTO.getUsername(), driverDTO.getPassword());
-                driverDO.setOnlineStatus(driverDTO.getOnlineStatus());
-                driverDO.setCarDO(CarMapper.makeDriverDO(driverDTO.getCarDTO()));
+        if (driverDTO == null) {
+            return null;
+        }
+        DriverDO driverDO = new DriverDO(driverDTO.getUsername(), null);
+        driverDO.setOnlineStatus(driverDTO.getOnlineStatus());
+        driverDO.setCarDO(CarMapper.makeDriverDO(driverDTO.getCarDTO()));
         return driverDO;
     }
 

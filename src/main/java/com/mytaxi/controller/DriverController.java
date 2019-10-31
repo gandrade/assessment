@@ -88,9 +88,9 @@ public class DriverController
 
 
     @GetMapping
-    public List<DriverDTO> findDrivers(DriverCriteriaDTO driverDTO)
+    public List<DriverDTO> findDrivers(DriverCriteriaDTO driverCriteriaDTO)
     {
-        DriverDO driverDO = DriverMapper.makeDriverDO(driverDTO);
+        DriverDO driverDO = DriverMapper.makeDriverDO(driverCriteriaDTO);
         List<DriverDO> drivers = driverService.findAll(driverDO);
         return DriverMapper.makeDriverDTOList(drivers);
     }
