@@ -59,5 +59,8 @@ public interface DriverService
 
     void deselect(Long driverId, Long carId) throws EntityNotFoundException;
 
-    List<DriverDO> findAll(Specification<DriverDO> spec);
+//    List<DriverDO> findAll(Specification<DriverDO> spec);
+
+    List<DriverDO> findAll(DriverDO driverDO);
+
 }

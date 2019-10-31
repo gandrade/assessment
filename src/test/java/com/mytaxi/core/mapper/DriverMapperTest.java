@@ -1,4 +1,4 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,4 +11,5 @@ public class DriverMapperTest
     {
         Assert.assertNull(DriverMapper.makeDriverDTO(null));
     }
+
 }

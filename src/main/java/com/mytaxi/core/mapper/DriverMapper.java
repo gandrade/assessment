@@ -1,5 +1,6 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
+import com.mytaxi.datatransferobject.DriverCriteriaDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.GeoCoordinate;
@@ -10,12 +11,36 @@ import java.util.stream.Collectors;
 
 public class DriverMapper
 {
+    /**
+     *
+     * @param driverDTO
+     * @return
+     */
     public static DriverDO makeDriverDO(DriverDTO driverDTO)
     {
         return new DriverDO(driverDTO.getUsername(), driverDTO.getPassword());
     }
 
 
+    /**
+     *
+     * @param driverDTO
+     * @return
+     */
+    public static DriverDO makeDriverDO(DriverCriteriaDTO driverDTO)
+    {
+        DriverDO driverDO = new DriverDO(driverDTO.getUsername(), driverDTO.getPassword());
+                driverDO.setOnlineStatus(driverDTO.getOnlineStatus());
+                driverDO.setCarDO(CarMapper.makeDriverDO(driverDTO.getCarDTO()));
+        return driverDO;
+    }
+
+
+    /**
+     *
+     * @param driverDO
+     * @return
+     */
     public static DriverDTO makeDriverDTO(DriverDO driverDO)
     {
         if (driverDO == null)
@@ -39,6 +64,11 @@ public class DriverMapper
     }
 
 
+    /**
+     *
+     * @param drivers
+     * @return
+     */
     public static List<DriverDTO> makeDriverDTOList(Collection<DriverDO> drivers)
     {
         return drivers.stream()

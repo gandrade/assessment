@@ -1,5 +1,6 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
+import com.mytaxi.datatransferobject.CarCriteriaDTO;
 import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.CarDO;
@@ -11,6 +12,11 @@ import java.util.stream.Collectors;
 public class CarMapper
 {
 
+    /**
+     * Creates a {@link CarDTO}.
+     * @param carDO {@link CarDO}
+     * @return Returns a {@link CarDTO}
+     */
     public static CarDTO makeCarDTO(CarDO carDO)
     {
         if (carDO == null)
@@ -30,6 +36,11 @@ public class CarMapper
     }
 
 
+    /**
+     *
+     * @param carDTO
+     * @return
+     */
     public static CarDO makeDriverDO(CarDTO carDTO)
     {
         ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(carDTO.getManufacturerDTO());
@@ -43,6 +54,29 @@ public class CarMapper
     }
 
 
+    /**
+     *
+     * @param carCriteriaDTO
+     * @return
+     */
+    public static CarDO makeDriverDO(CarCriteriaDTO carCriteriaDTO)
+    {
+        ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(carCriteriaDTO.getManufacturerDTO());
+        return new CarDO(
+            carCriteriaDTO.getLicensePlate(),
+            carCriteriaDTO.getSeatCount(),
+            carCriteriaDTO.getConvertible(),
+            carCriteriaDTO.getRating(),
+            carCriteriaDTO.getEngineType(),
+            manufacturerDO);
+    }
+
+
+    /**
+     *
+     * @param cars
+     * @return
+     */
     public static List<CarDTO> makeCarDTOList(List<CarDO> cars)
     {
         return cars.stream()

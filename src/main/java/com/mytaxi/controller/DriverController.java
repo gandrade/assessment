@@ -1,37 +1,21 @@
 package com.mytaxi.controller;
 
-import com.mytaxi.controller.mapper.DriverMapper;
-import com.mytaxi.controller.specification.DriverDOSpecification;
+import com.mytaxi.core.mapper.DriverMapper;
+import com.mytaxi.datatransferobject.DriverCriteriaDTO;
+import com.mytaxi.specification.DriverDOSpecificationExecutor;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
-import com.mytaxi.service.car.CarService;
 import com.mytaxi.service.driver.DriverService;
 
 import java.util.List;
 import javax.validation.Valid;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * All operations with a driver will be routed by this controller.
@@ -43,10 +27,10 @@ public class DriverController
 {
 
     private final DriverService driverService;
-    private final DriverDOSpecification driverDOSpecification;
+    private final DriverDOSpecificationExecutor driverDOSpecification;
 
 
-    public DriverController(DriverService driverService, DriverDOSpecification driverDOSpecification)
+    public DriverController(DriverService driverService, DriverDOSpecificationExecutor driverDOSpecification)
     {
         this.driverService = driverService;
         this.driverDOSpecification = driverDOSpecification;
@@ -104,10 +88,10 @@ public class DriverController
 
 
     @GetMapping
-    public List<DriverDTO> findDrivers(DriverDTO driverDTO)
+    public List<DriverDTO> findDrivers(DriverCriteriaDTO driverDTO)
     {
-        Specification<DriverDO> driverSpecification = driverDOSpecification.makeSpecification(driverDTO);
-        List<DriverDO> drivers = driverService.findAll(driverSpecification);
+        DriverDO driverDO = DriverMapper.makeDriverDO(driverDTO);
+        List<DriverDO> drivers = driverService.findAll(driverDO);
         return DriverMapper.makeDriverDTOList(drivers);
     }
 

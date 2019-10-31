@@ -1,11 +1,17 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
+import com.mytaxi.datatransferobject.ManufacturerCriteriaDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.ManufacturerDO;
 
 public class ManufacturerMapper
 {
 
+    /**
+     *
+     * @param manufacturerDO
+     * @return
+     */
     public static ManufacturerDTO makeManufacturerDTO(ManufacturerDO manufacturerDO)
     {
         if (manufacturerDO == null)
@@ -19,7 +25,24 @@ public class ManufacturerMapper
     }
 
 
+    /**
+     *
+     * @param manufacturerDTO
+     * @return
+     */
     public static ManufacturerDO makeManufacturerDO(ManufacturerDTO manufacturerDTO)
+    {
+
+        return new ManufacturerDO(manufacturerDTO.getName());
+    }
+
+
+    /**
+     *
+     * @param manufacturerDTO
+     * @return
+     */
+    public static ManufacturerDO makeManufacturerDO(ManufacturerCriteriaDTO manufacturerDTO)
     {
 
         return new ManufacturerDO(manufacturerDTO.getName());

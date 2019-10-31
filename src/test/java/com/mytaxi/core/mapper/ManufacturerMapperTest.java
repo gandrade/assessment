@@ -1,5 +1,6 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
+import com.mytaxi.datatransferobject.ManufacturerCriteriaDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.ManufacturerDO;
 import org.junit.Test;
@@ -23,6 +24,19 @@ public class ManufacturerMapperTest
     public void shouldMakeManufacturerDO()
     {
         ManufacturerDTO manufacturerDTO = ManufacturerDTO.newBuilder()
+            .setId(123l)
+            .setName("Tesla")
+            .createManufacturerDTO();
+        ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
+        assertThat(manufacturerDO.getId(), nullValue());
+        assertThat(manufacturerDO.getName(), equalTo("TESLA"));
+    }
+
+
+    @Test
+    public void shouldMakeManufacturerDOFilter()
+    {
+        ManufacturerCriteriaDTO manufacturerDTO = ManufacturerCriteriaDTO.newBuilder()
             .setId(123l)
             .setName("Tesla")
             .createManufacturerDTO();

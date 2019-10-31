@@ -4,15 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.OnlineStatus;
 
 import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DriverDTO
+public class DriverCriteriaDTO
 {
     @JsonIgnore
     private Long id;
@@ -28,14 +26,14 @@ public class DriverDTO
     private OnlineStatus onlineStatus;
 
     @JsonDeserialize(builder = CarDTO.CarDTOBuilder.class)
-    private CarDTO carDTO = CarDTO.newBuilder().createCarDTO();
+    private CarCriteriaDTO carDTO = CarCriteriaDTO.newBuilder().createCarDTO();
 
-    private DriverDTO()
+    private DriverCriteriaDTO()
     {
     }
 
 
-    private DriverDTO(Long id, String username, String password, GeoCoordinate coordinate, CarDTO carDTO)
+    private DriverCriteriaDTO(Long id, String username, String password, GeoCoordinate coordinate, CarCriteriaDTO carDTO)
     {
         this.id = id;
         this.username = username;
@@ -84,7 +82,7 @@ public class DriverDTO
 
 
     @JsonProperty("car")
-    public CarDTO getCarDTO()
+    public CarCriteriaDTO getCarDTO()
     {
         return carDTO;
     }
@@ -95,7 +93,7 @@ public class DriverDTO
         private String username;
         private String password;
         private GeoCoordinate coordinate;
-        private CarDTO carDTO;
+        private CarCriteriaDTO carDTO;
 
 
         public DriverDTOBuilder setId(Long id)
@@ -126,16 +124,16 @@ public class DriverDTO
         }
 
 
-        public DriverDTOBuilder setCarDTO(CarDTO carDTO)
+        public DriverDTOBuilder setCarDTO(CarCriteriaDTO carDTO)
         {
             this.carDTO = carDTO;
             return this;
         }
 
 
-        public DriverDTO createDriverDTO()
+        public DriverCriteriaDTO createDriverDTO()
         {
-            return new DriverDTO(id, username, password, coordinate, carDTO);
+            return new DriverCriteriaDTO(id, username, password, coordinate, carDTO);
         }
     }
 }

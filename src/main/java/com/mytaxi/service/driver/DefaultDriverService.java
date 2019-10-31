@@ -1,5 +1,6 @@
 package com.mytaxi.service.driver;
 
+import com.mytaxi.specification.DriverDOSpecificationExecutor;
 import com.mytaxi.dataaccessobject.DriverRepository;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
@@ -28,17 +29,20 @@ public class DefaultDriverService implements DriverService
     private static org.slf4j.Logger LOG = LoggerFactory.getLogger(DefaultDriverService.class);
 
     private final DriverRepository driverRepository;
+    private final DriverDOSpecificationExecutor driverDOSpecification;
     private final CarService carService;
 
 
     /**
      * Default constructor.
      * @param driverRepository {@link DriverRepository}
+     * @param driverDOSpecification {@link DriverDOSpecificationExecutor}
      * @param carService {@link CarService}
      */
-    public DefaultDriverService(final DriverRepository driverRepository, CarService carService)
+    public DefaultDriverService(final DriverRepository driverRepository, DriverDOSpecificationExecutor driverDOSpecification, CarService carService)
     {
         this.driverRepository = driverRepository;
+        this.driverDOSpecification = driverDOSpecification;
         this.carService = carService;
     }
 
@@ -124,11 +128,19 @@ public class DefaultDriverService implements DriverService
         carDO.setDriverDO(null);
     }
 
+//    /** {@inheritDoc} */
+//    @Override
+//    public List<DriverDO> findAll(Specification<DriverDO> spec)
+//    {
+//        return driverRepository.findAll(spec);
+//    }
+
     /** {@inheritDoc} */
     @Override
-    public List<DriverDO> findAll(Specification<DriverDO> spec)
+    public List<DriverDO> findAll(DriverDO driverDO)
     {
-        return driverRepository.findAll(spec);
+        Specification<DriverDO> driverDOSpecification = this.driverDOSpecification.makeSpecification(driverDO);
+        return driverRepository.findAll(driverDOSpecification);
     }
 
 

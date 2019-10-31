@@ -39,7 +39,7 @@ public class ManufacturerDO
 
     public ManufacturerDO(String name)
     {
-        this.name = name.toUpperCase();
+        this.name = name == null ? null : name.toUpperCase();
     }
 
 

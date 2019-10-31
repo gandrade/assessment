@@ -12,5 +12,10 @@ import java.util.Optional;
 public interface ManufacturerRepository extends CrudRepository<ManufacturerDO, Long>
 {
 
+    /**
+     * Find manufacturer by name ignoring case
+     * @param name Manufacturer name
+     * @return Optional of {@link ManufacturerDO}
+     */
     Optional<ManufacturerDO> findByNameIgnoreCase(String name);
 }

@@ -1,4 +1,4 @@
-package com.mytaxi.core;
+package com.mytaxi.core.configuration;
 
 import com.mytaxi.MytaxiServerApplicantTestApplication;
 import org.springframework.context.annotation.Bean;
