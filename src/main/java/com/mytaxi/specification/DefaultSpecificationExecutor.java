@@ -8,6 +8,7 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Default base implementation for creating predicates following Specification implementation.
@@ -38,7 +39,7 @@ interface DefaultSpecificationExecutor<T>
         };
     }
 
-    Collection<? extends Predicate> createPredicates(Root<T> path, CriteriaBuilder builder, T doObject);
+    Set<Predicate> createPredicates(Root<T> path, CriteriaBuilder builder, T doObject);
 
-    Collection<? extends Predicate> createPredicates(Path<T> path, CriteriaBuilder builder, T doObject);
+    Set<Predicate> createPredicates(Path<T> path, CriteriaBuilder builder, T doObject);
 }

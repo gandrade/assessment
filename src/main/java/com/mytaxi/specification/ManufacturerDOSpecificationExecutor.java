@@ -16,7 +16,7 @@ public class ManufacturerDOSpecificationExecutor implements DefaultSpecification
 {
 
     @Override
-    public Collection<? extends Predicate> createPredicates(Path<ManufacturerDO> path, CriteriaBuilder builder, ManufacturerDO manufacturerDO)
+    public Set<Predicate> createPredicates(Path<ManufacturerDO> path, CriteriaBuilder builder, ManufacturerDO manufacturerDO)
     {
         if (manufacturerDO == null) {
             return Collections.emptySet();
@@ -28,7 +28,7 @@ public class ManufacturerDOSpecificationExecutor implements DefaultSpecification
 
 
     @Override
-    public Collection<? extends Predicate> createPredicates(Root<ManufacturerDO> path, CriteriaBuilder builder, ManufacturerDO manufacturerDO)
+    public Set<Predicate> createPredicates(Root<ManufacturerDO> path, CriteriaBuilder builder, ManufacturerDO manufacturerDO)
     {
         return null;
     }

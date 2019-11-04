@@ -28,7 +28,7 @@ public class CarDOSpecificationExecutor implements DefaultSpecificationExecutor<
 
 
     @Override
-    public Collection<? extends Predicate> createPredicates(Path<CarDO> path, CriteriaBuilder builder, CarDO doObject)
+    public Set<Predicate> createPredicates(Path<CarDO> path, CriteriaBuilder builder, CarDO doObject)
     {
         if (doObject == null) {
             return Collections.emptySet();
@@ -39,14 +39,14 @@ public class CarDOSpecificationExecutor implements DefaultSpecificationExecutor<
         predicates.add(builder.equal(path.get(CONVERTIBLE), doObject.getConvertible()));
         predicates.add(builder.equal(path.get(RATING), doObject.getRating()));
         predicates.add(builder.equal(path.get(ENGINE_TYPE), doObject.getEngineType()));
-        Collection<? extends Predicate> manufacturerPredicates = manufacturerDOSpecification.createPredicates(path.get(MANUFACTURER_DO), builder, doObject.getManufacturerDO());
+        Set<Predicate> manufacturerPredicates = manufacturerDOSpecification.createPredicates(path.get(MANUFACTURER_DO), builder, doObject.getManufacturerDO());
         predicates.addAll(manufacturerPredicates);
         return predicates;
     }
 
 
     @Override
-    public Collection<? extends Predicate> createPredicates(Root<CarDO> path, CriteriaBuilder builder, CarDO dtoObject)
+    public Set<Predicate> createPredicates(Root<CarDO> path, CriteriaBuilder builder, CarDO dtoObject)
     {
         return null;
     }
