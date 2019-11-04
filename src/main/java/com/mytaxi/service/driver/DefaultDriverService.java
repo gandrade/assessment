@@ -51,7 +51,7 @@ public class DefaultDriverService implements DriverService
     @Override
     public DriverDO find(Long driverId) throws EntityNotFoundException
     {
-        return findDriverChecked(driverId);
+        return this.findDriverChecked(driverId);
     }
 
 
@@ -59,17 +59,15 @@ public class DefaultDriverService implements DriverService
     @Override
     public DriverDO create(DriverDO driverDO) throws ConstraintsViolationException
     {
-        DriverDO driver;
         try
         {
-            driver = driverRepository.save(driverDO);
+            return driverRepository.save(driverDO);
         }
         catch (DataIntegrityViolationException e)
         {
             LOG.warn("Some constraints are thrown due to driver creation", e);
             throw new ConstraintsViolationException(e.getMessage());
         }
-        return driver;
     }
 
 
@@ -78,7 +76,7 @@ public class DefaultDriverService implements DriverService
     @Transactional
     public void delete(Long driverId) throws EntityNotFoundException
     {
-        DriverDO driverDO = findDriverChecked(driverId);
+        DriverDO driverDO = this.findDriverChecked(driverId);
         driverDO.setDeleted(true);
     }
 
@@ -88,7 +86,7 @@ public class DefaultDriverService implements DriverService
     @Transactional
     public void updateLocation(long driverId, double longitude, double latitude) throws EntityNotFoundException
     {
-        DriverDO driverDO = findDriverChecked(driverId);
+        DriverDO driverDO = this.findDriverChecked(driverId);
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
     }
 
@@ -114,7 +112,7 @@ public class DefaultDriverService implements DriverService
             throw new ConstraintsViolationException("Driver " + driverId + " already has a car selected.");
         }
         CarDO carDO = carService.findAvailable(carId);
-        DriverDO driverDO = findOnlineDriver(driverId);
+        DriverDO driverDO = this.findOnlineDriver(driverId);
         carDO.setDriverDO(driverDO);
         return driverDO;
     }
