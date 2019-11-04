@@ -32,7 +32,6 @@ public class ManufacturerMapper
      */
     public static ManufacturerDO makeManufacturerDO(ManufacturerDTO manufacturerDTO)
     {
-
         return new ManufacturerDO(manufacturerDTO.getName());
     }
 
@@ -44,8 +43,8 @@ public class ManufacturerMapper
      */
     public static ManufacturerDO makeManufacturerDO(ManufacturerCriteriaDTO manufacturerDTO)
     {
-
-        if (manufacturerDTO == null) {
+        if (manufacturerDTO == null)
+        {
             return null;
         }
         return new ManufacturerDO(manufacturerDTO.getName());

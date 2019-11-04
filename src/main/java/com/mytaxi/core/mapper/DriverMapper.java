@@ -29,7 +29,8 @@ public class DriverMapper
      */
     public static DriverDO makeDriverDO(DriverCriteriaDTO driverDTO)
     {
-        if (driverDTO == null) {
+        if (driverDTO == null)
+        {
             return null;
         }
         DriverDO driverDO = new DriverDO(driverDTO.getUsername(), null);
