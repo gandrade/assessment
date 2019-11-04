@@ -16,7 +16,7 @@ public interface CarRepository extends CrudRepository<CarDO, Long>
      * Find a car filtering by car's identifier.
      *
      * @param carId Car identifier
-     * @return Optional of {@link CarDO
+     * @return Optional of {@link CarDO}
      */
     Optional<CarDO> findByIdAndDriverDOIsNull(Long carId);
 
