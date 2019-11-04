@@ -25,17 +25,20 @@ public class SwaggerConfiguration
     @Bean
     public Docket docket()
     {
-        BasicAuth basicAuth = new BasicAuth("basicAuth");
+        String packageName = MytaxiServerApplicantTestApplication.class.getPackage().getName();
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
-            .apis(RequestHandlerSelectors.basePackage(MytaxiServerApplicantTestApplication.class.getPackage().getName()))
+            .apis(RequestHandlerSelectors.basePackage(packageName))
             .paths(PathSelectors.any())
             .build()
             .apiInfo(generateApiInfo())
             .securityContexts(Arrays.asList(apiSecurityContext()))
-            .securitySchemes(Arrays.asList(basicAuth));
+            .securitySchemes(Arrays.asList(generateBasicAuth()));
     }
 
+    private BasicAuth generateBasicAuth(){
+        return new BasicAuth("basicAuth");
+    }
 
     private SecurityContext apiSecurityContext()
     {

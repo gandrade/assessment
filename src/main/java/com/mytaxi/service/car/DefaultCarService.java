@@ -3,6 +3,7 @@ package com.mytaxi.service.car;
 import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
+import com.mytaxi.domainobject.ManufacturerDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
@@ -61,7 +62,8 @@ public class DefaultCarService implements CarService
     {
         try
         {
-            carDO.setManufacturerDO(manufacturerService.findByNameIgnoreCase(carDO.getManufacturerDO().getName()));
+            ManufacturerDO manufacturerDO = manufacturerService.findByNameIgnoreCase(carDO.getManufacturerDO().getName());
+            carDO.setManufacturerDO(manufacturerDO);
             return carRepository.save(carDO);
         }
         catch (DataIntegrityViolationException e)
@@ -83,7 +85,8 @@ public class DefaultCarService implements CarService
             car.setConvertible(carDO.getConvertible());
             car.setLicensePlate(carDO.getLicensePlate());
             car.setRating(carDO.getRating());
-            car.setManufacturerDO(manufacturerService.findByNameIgnoreCase(carDO.getManufacturerDO().getName()));
+            ManufacturerDO manufacturerDO = manufacturerService.findByNameIgnoreCase(carDO.getManufacturerDO().getName());
+            car.setManufacturerDO(manufacturerDO);
             car.setDriverDO(carDO.getDriverDO());
             carRepository.save(car);
         }
