@@ -6,6 +6,8 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @RequestMapping("v1/cars")
 @RestController
+@Api(tags={"Car Controller Management"})
 public class CarController
 {
 
@@ -31,6 +34,7 @@ public class CarController
 
 
     @GetMapping
+    @ApiOperation(value = "Returns a list of all cars available.")
     public List<CarDTO> getCars()
     {
         List<CarDO> cars = carService.findAll();
@@ -39,6 +43,7 @@ public class CarController
 
 
     @GetMapping("/{carId}")
+    @ApiOperation(value = "Return a car based on its identification.")
     public CarDTO getCar(@Valid @PathVariable long carId) throws EntityNotFoundException
     {
         CarDO carDO = carService.find(carId);
@@ -48,6 +53,7 @@ public class CarController
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Creates a new Car.")
     public CarDTO createCar(@Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException, EntityNotFoundException
     {
         CarDO carDO = CarMapper.makeDriverDO(carDTO);
@@ -56,6 +62,7 @@ public class CarController
 
 
     @DeleteMapping("/{carId}")
+    @ApiOperation(value = "Deletes a Car.")
     public void deleteCar(@Valid @PathVariable long carId) throws EntityNotFoundException
     {
         carService.delete(carId);
@@ -63,10 +70,12 @@ public class CarController
 
 
     @PutMapping("/{carId}")
+    @ApiOperation(value = "Update car attributes.")
     public void updateCar(
         @Valid @PathVariable long carId,
         @Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException, EntityNotFoundException
     {
-        carService.update(carId, CarMapper.makeDriverDO(carDTO));
+        CarDO carDO = CarMapper.makeDriverDO(carDTO);
+        carService.update(carId, carDO);
     }
 }
