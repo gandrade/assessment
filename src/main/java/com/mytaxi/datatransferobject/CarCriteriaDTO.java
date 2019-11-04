@@ -10,7 +10,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarCriteriaDTO
 {
 
@@ -29,7 +28,6 @@ public class CarCriteriaDTO
 
     private EngineType engineType;
 
-    @JsonProperty("manufacturer")
     @NotNull
     @Valid
     private ManufacturerCriteriaDTO manufacturerDTO;

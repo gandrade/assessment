@@ -27,7 +27,6 @@ public class DriverDTO
 
     private OnlineStatus onlineStatus;
 
-    @JsonDeserialize(builder = CarDTO.CarDTOBuilder.class)
     private CarDTO carDTO = CarDTO.newBuilder().createCarDTO();
 
     private DriverDTO()

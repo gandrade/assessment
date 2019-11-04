@@ -3,7 +3,6 @@ package com.mytaxi.datatransferobject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.OnlineStatus;
 
@@ -19,8 +18,8 @@ public class DriverCriteriaDTO
 
     private OnlineStatus onlineStatus;
 
-    @JsonDeserialize(builder = CarDTO.CarDTOBuilder.class)
     private CarCriteriaDTO carDTO = CarCriteriaDTO.newBuilder().createCarDTO();
+
 
     private DriverCriteriaDTO()
     {
@@ -65,6 +64,7 @@ public class DriverCriteriaDTO
     {
         return carDTO;
     }
+
 
     public static class DriverDTOBuilder
     {
