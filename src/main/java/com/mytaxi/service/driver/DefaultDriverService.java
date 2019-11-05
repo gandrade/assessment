@@ -90,13 +90,6 @@ public class DefaultDriverService implements DriverService
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public List<DriverDO> find(OnlineStatus onlineStatus)
-    {
-        return driverRepository.findByOnlineStatus(onlineStatus);
-    }
-
 
     /** {@inheritDoc} */
     @Override
