@@ -34,9 +34,8 @@ public class ManufacturerMapperTest
     }
 
 
-    // FIXME
     @Test
-    public void shouldReturnNullMakeManufacturerCriteriaDTO()
+    public void shouldReturnNullWhenManufacturerCriteriaDTOIsNull()
     {
         ManufacturerCriteriaDTO manufacturerCriteriaDTO = null;
         assertThat(ManufacturerMapper.makeManufacturerDO(manufacturerCriteriaDTO), Matchers.nullValue());

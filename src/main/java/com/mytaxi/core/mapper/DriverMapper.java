@@ -26,6 +26,7 @@ public class DriverMapper
         }
         DriverDO driverDO = new DriverDO(driverDTO.getUsername(), null);
         driverDO.setOnlineStatus(driverDTO.getOnlineStatus());
+        driverDO.setCoordinate(driverDTO.getCoordinate());
         driverDO.setCarDO(CarMapper.makeDriverDO(driverDTO.getCarDTO()));
         return driverDO;
     }

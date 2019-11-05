@@ -89,8 +89,6 @@ public class DefaultDriverService implements DriverService
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
     }
 
-    //FIXME
-
 
     /** {@inheritDoc} */
     @Override
@@ -99,7 +97,7 @@ public class DefaultDriverService implements DriverService
     {
         if (!carService.existsById(carId))
         {
-            throw new EntityNotFoundException("Could not find car with id: " + carId);
+            throw new EntityNotFoundException("Could not find Car entity with id: " + carId);
         }
         if (driverRepository.existsByIdAndCarDO_IdIsNotNull(driverId))
         {
@@ -110,8 +108,6 @@ public class DefaultDriverService implements DriverService
         carDO.setDriverDO(driverDO);
         return driverDO;
     }
-
-    //FIXME
 
 
     /** {@inheritDoc} */
@@ -136,14 +132,14 @@ public class DefaultDriverService implements DriverService
     private DriverDO findOnlineDriver(Long driverId) throws EntityNotFoundException
     {
         return driverRepository.findByIdAndOnlineStatusAndDeletedFalse(driverId, OnlineStatus.ONLINE)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Driver entity with id: " + driverId));
     }
 
 
     private DriverDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
         return driverRepository.findByIdAndDeletedFalse(driverId)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Driver entity with id: " + driverId));
     }
 
 }

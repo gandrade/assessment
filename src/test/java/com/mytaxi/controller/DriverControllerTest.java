@@ -81,6 +81,28 @@ public class DriverControllerTest
             .andExpect(jsonPath("$.length()", is(0)));
     }
 
+    @Test
+    @DirtiesContext
+    public void shouldReturnDriverUsingAllFilters() throws Exception
+    {
+
+        this.mockMvc.perform(put("/v1/drivers/8/cars/5/select")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
+        this.mockMvc.perform(get("/v1/drivers")
+            .param("username", "driver08")
+            .param("carDTO.seatCount", "2")
+            .param("carDTO.rating", "4")
+            .param("carDTO.licensePlate", "license-888")
+            .param("carDTO.engineType", "HYBRID")
+            .param("carDTO.manufacturerDTO.name", "tesla"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.[0].id", is(notNullValue())))
+            .andExpect(jsonPath("$.length()", is(1)));
+
+    }
+
 
     @Test
     public void shouldReturnDriversNonConvertibleCarsOnly() throws Exception
@@ -139,7 +161,7 @@ public class DriverControllerTest
             .andExpect(status().isOk());
 
         this.mockMvc.perform(get("/v1/drivers/1"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isNotFound());
     }
 
 
@@ -274,7 +296,7 @@ public class DriverControllerTest
     {
         this.mockMvc.perform(put("/v1/drivers/1/cars/1/select")
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isNotFound());
     }
 
 

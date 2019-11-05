@@ -59,12 +59,11 @@ public class CarControllerTest
     }
 
 
-    //FIXME HttpStatus code
     @Test
     public void shoulThrowEntityNotFoundExceptionFindingNonExistingCarId() throws Exception
     {
         this.mockMvc.perform(get("/v1/cars/0"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isNotFound());
     }
 
 
@@ -81,7 +80,7 @@ public class CarControllerTest
     public void shouldDeleteNonExistingCar() throws Exception
     {
         this.mockMvc.perform(delete("/v1/cars/0"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isNotFound());
     }
 
 

@@ -43,7 +43,7 @@ public class DefaultCarService implements CarService
     public CarDO find(Long carId) throws EntityNotFoundException
     {
         return carRepository.findById(carId)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + carId));
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Car entity with id: " + carId));
     }
 
 
@@ -61,7 +61,7 @@ public class DefaultCarService implements CarService
     public CarDO deselect(Long carId, Long driverId) throws EntityNotFoundException
     {
         return carRepository.findByIdAndDriverDO_Id(carId, driverId)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find car with id: " + carId + " for the driver: " + driverId));
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Car with id: " + carId + " for the driver: " + driverId));
     }
 
 
@@ -116,7 +116,7 @@ public class DefaultCarService implements CarService
         }
         catch (EmptyResultDataAccessException e)
         {
-            throw new EntityNotFoundException("Couldn't exclude car " + carId + ".", e);
+            throw new EntityNotFoundException("Couldn't delete car " + carId + ".", e);
         }
     }
 

@@ -16,7 +16,7 @@ public class GlobalExceptionHandler
 
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Could not find entity with id.")
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Could not find entity with id.")
     public void handleEntityNotFoundException(EntityNotFoundException e)
     {
         LOG.debug(e.getMessage(), e);
