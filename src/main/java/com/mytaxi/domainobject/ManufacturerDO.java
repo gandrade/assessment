@@ -43,22 +43,6 @@ public class ManufacturerDO
     }
 
 
-    // FIXME
-    public void addCar(CarDO carDO)
-    {
-        cars.add(carDO);
-        carDO.setManufacturerDO(this);
-    }
-
-
-    // FIXME
-    public void removeComment(CarDO carDO)
-    {
-        cars.remove(carDO);
-        carDO.setManufacturerDO(this);
-    }
-
-
     public Long getId()
     {
         return id;

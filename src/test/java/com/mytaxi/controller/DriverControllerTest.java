@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "mytaxi", password = "mytaxi")
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class DriverControllerTest
 {
 
@@ -44,12 +45,38 @@ public class DriverControllerTest
 
 
     @Test
+    @DirtiesContext
     public void shouldReturnAllDrivers() throws Exception
     {
         this.mockMvc.perform(get("/v1/drivers"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.[0].id", is(notNullValue())))
             .andExpect(jsonPath("$.length()", is(8)));
+    }
+
+    @Test
+    @DirtiesContext
+    public void shouldReturnAllDriversButDeletedFalse() throws Exception
+    {
+        this.mockMvc.perform(delete("/v1/drivers/8"))
+            .andExpect(status().isOk());
+
+        this.mockMvc.perform(get("/v1/drivers"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.[0].id", is(notNullValue())))
+            .andExpect(jsonPath("$.length()", is(7)));
+    }
+
+    @Test
+    @DirtiesContext
+    public void shouldNotReturnADeletedDriver() throws Exception
+    {
+        this.mockMvc.perform(delete("/v1/drivers/8"))
+            .andExpect(status().isOk());
+
+        this.mockMvc.perform(get("/v1/drivers?onlineStatus=ONLINE&username=driver08"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()", is(0)));
     }
 
 
@@ -100,6 +127,18 @@ public class DriverControllerTest
             .andExpect(jsonPath("$.id", is(notNullValue())));
     }
 
+    @Test
+    @DirtiesContext
+    public void shouldReturnASingleDriverNonDeleted() throws Exception
+    {
+
+        this.mockMvc.perform(delete("/v1/drivers/1"))
+            .andExpect(status().isOk());
+
+        this.mockMvc.perform(get("/v1/drivers/1"))
+            .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     @DirtiesContext
@@ -141,6 +180,27 @@ public class DriverControllerTest
             .setUsername("driver-tst")
             .createDriverDTO();
         String payload = new ObjectMapper().writeValueAsString(driverDTO);
+
+        this.mockMvc.perform(post("/v1/drivers/")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(payload))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DirtiesContext
+    public void shouldReturnContraintValidationErrorCreating2DriversUsingSameUsername() throws Exception
+    {
+        DriverDTO driverDTO = DriverDTO.newBuilder()
+            .setUsername("driver-tst")
+            .setPassword("driver-tst-pwd")
+            .createDriverDTO();
+        String payload = new ObjectMapper().writeValueAsString(driverDTO);
+
+        this.mockMvc.perform(post("/v1/drivers/")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(payload))
+            .andExpect(status().isCreated());
 
         this.mockMvc.perform(post("/v1/drivers/")
             .contentType(MediaType.APPLICATION_JSON)

@@ -58,6 +58,14 @@ public class CarControllerTest
             .andExpect(status().isOk());
     }
 
+    //FIXME HttpStatus code
+    @Test
+    public void shoulThrowEntityNotFoundExceptionFindingNonExistingCarId() throws Exception
+    {
+        this.mockMvc.perform(get("/v1/cars/0"))
+            .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     @DirtiesContext

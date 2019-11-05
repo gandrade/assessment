@@ -16,6 +16,14 @@ public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpe
 {
 
     /**
+     * Find Driver by identification and marked as deleted.
+     *
+     * @param driverId Driver identification
+     * @return DriverDO
+     */
+    Optional<DriverDO> findByIdAndDeletedFalse(Long driverId);
+
+    /**
      * Find for Online drivers.
      *
      * @param onlineStatus {@link OnlineStatus}
@@ -30,7 +38,7 @@ public interface DriverRepository extends CrudRepository<DriverDO, Long>, JpaSpe
      * @param online {@link OnlineStatus}
      * @return Online driver
      */
-    Optional<DriverDO> findByIdAndOnlineStatus(Long driverId, OnlineStatus online);
+    Optional<DriverDO> findByIdAndOnlineStatusAndDeletedFalse(Long driverId, OnlineStatus online);
 
     /**
      * Checks whether exists an assigned car for a given driver identifier.

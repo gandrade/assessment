@@ -13,7 +13,7 @@ public interface DriverService
     /**
      * Selects a driver by id.
      *
-     * @param driverId
+     * @param driverId Driver identification.
      * @return found driver
      * @throws EntityNotFoundException if no driver with the given id was found.
      */

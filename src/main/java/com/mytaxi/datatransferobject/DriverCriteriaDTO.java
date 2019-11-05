@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DriverCriteriaDTO
 {
-    @NotNull(message = "Username can not be null!")
     private String username;
 
     private GeoCoordinate coordinate;
@@ -20,17 +19,20 @@ public class DriverCriteriaDTO
 
     private CarCriteriaDTO carDTO = CarCriteriaDTO.newBuilder().createCarDTO();
 
+    private boolean deleted;
+
 
     private DriverCriteriaDTO()
     {
     }
 
 
-    private DriverCriteriaDTO(String username, GeoCoordinate coordinate, CarCriteriaDTO carDTO)
+    private DriverCriteriaDTO(String username, GeoCoordinate coordinate, CarCriteriaDTO carDTO, boolean deleted)
     {
         this.username = username;
         this.coordinate = coordinate;
         this.carDTO = carDTO;
+        this.deleted = deleted;
     }
 
 
@@ -52,17 +54,21 @@ public class DriverCriteriaDTO
     }
 
 
-    @JsonIgnore
     public OnlineStatus getOnlineStatus()
     {
         return onlineStatus;
     }
 
 
-    @JsonProperty("car")
     public CarCriteriaDTO getCarDTO()
     {
         return carDTO;
+    }
+
+
+    public boolean isDeleted()
+    {
+        return deleted;
     }
 
 
@@ -96,7 +102,7 @@ public class DriverCriteriaDTO
 
         public DriverCriteriaDTO createDriverDTO()
         {
-            return new DriverCriteriaDTO(username, coordinate, carDTO);
+            return new DriverCriteriaDTO(username, coordinate, carDTO, false);
         }
     }
 }

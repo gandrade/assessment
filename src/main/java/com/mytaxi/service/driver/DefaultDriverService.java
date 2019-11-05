@@ -65,8 +65,7 @@ public class DefaultDriverService implements DriverService
         }
         catch (DataIntegrityViolationException e)
         {
-            LOG.warn("Some constraints are thrown due to driver creation", e);
-            throw new ConstraintsViolationException(e.getMessage());
+            throw new ConstraintsViolationException("Some constraints are thrown due to driver creation", e);
         }
     }
 
@@ -136,14 +135,14 @@ public class DefaultDriverService implements DriverService
 
     private DriverDO findOnlineDriver(Long driverId) throws EntityNotFoundException
     {
-        return driverRepository.findByIdAndOnlineStatus(driverId, OnlineStatus.ONLINE)
+        return driverRepository.findByIdAndOnlineStatusAndDeletedFalse(driverId, OnlineStatus.ONLINE)
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
     }
 
 
     private DriverDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
-        return driverRepository.findById(driverId)
+        return driverRepository.findByIdAndDeletedFalse(driverId)
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
     }
 

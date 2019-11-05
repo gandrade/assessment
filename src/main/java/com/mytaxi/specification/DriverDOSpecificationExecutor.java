@@ -36,6 +36,7 @@ public class DriverDOSpecificationExecutor implements DefaultSpecificationExecut
         Set<Predicate> predicates = new HashSet<>();
         predicates.add(builder.equal(path.get(USERNAME), doObject.getUsername() == null ? null : doObject.getUsername().toLowerCase()));
         predicates.add(builder.equal(path.get(ONLINE_STATUS), doObject.getOnlineStatus()));
+        predicates.add(builder.equal(path.get(DELETED), doObject.getDeleted()));
         Set<Predicate> carPredicates = carDOSpecification.createPredicates(path.get(carDO), builder, doObject.getCarDO());
         predicates.addAll(carPredicates);
         return predicates;

@@ -77,8 +77,7 @@ public class DefaultCarService implements CarService
         }
         catch (DataIntegrityViolationException e)
         {
-            LOG.error("Some constraints are thrown due to driver creation", e);
-            throw new ConstraintsViolationException(e.getMessage());
+            throw new ConstraintsViolationException("Some constraints are thrown due to driver creation", e);
         }
     }
 
@@ -102,8 +101,7 @@ public class DefaultCarService implements CarService
         }
         catch (DataIntegrityViolationException e)
         {
-            LOG.error("Some constraints are thrown due to driver creation", e);
-            throw new ConstraintsViolationException(e.getMessage());
+            throw new ConstraintsViolationException("Some constraints are thrown due to driver creation", e);
         }
     }
 
@@ -118,8 +116,7 @@ public class DefaultCarService implements CarService
         }
         catch (EmptyResultDataAccessException e)
         {
-            LOG.error("Couldn't exclude car " + carId + ".", e);
-            throw new EntityNotFoundException("Couldn't exclude car " + carId + ".");
+            throw new EntityNotFoundException("Couldn't exclude car " + carId + ".", e);
         }
     }
 
