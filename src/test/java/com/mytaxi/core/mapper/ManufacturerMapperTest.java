@@ -3,6 +3,7 @@ package com.mytaxi.core.mapper;
 import com.mytaxi.datatransferobject.ManufacturerCriteriaDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.ManufacturerDO;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -32,6 +33,13 @@ public class ManufacturerMapperTest
         assertThat(manufacturerDO.getName(), equalTo("TESLA"));
     }
 
+    // FIXME
+    @Test
+    public void shouldReturnNullMakeManufacturerCriteriaDTO()
+    {
+        ManufacturerCriteriaDTO manufacturerCriteriaDTO = null;
+        assertThat(ManufacturerMapper.makeManufacturerDO(manufacturerCriteriaDTO), Matchers.nullValue());
+    }
 
     @Test
     public void shouldMakeManufacturerDOFilter()
