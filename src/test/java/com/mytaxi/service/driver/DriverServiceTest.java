@@ -15,15 +15,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.InOrder;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
 
 import static org.mockito.Mockito.times;
 
@@ -49,11 +45,16 @@ public class DriverServiceTest
     {
         DriverDO driverDO = new DriverDO("duplicated-user", "duplicated-pass");
 
-        BDDMockito.given(driverRepository.save(driverDO)).willAnswer(answer -> {throw new DataIntegrityViolationException(""); });
-        try {
+        BDDMockito.given(driverRepository.save(driverDO)).willAnswer(answer -> {
+            throw new DataIntegrityViolationException("");
+        });
+        try
+        {
             driverService.create(driverDO);
             Assert.fail();
-        } catch (ConstraintsViolationException e) {
+        }
+        catch (ConstraintsViolationException e)
+        {
             BDDMockito.verify(driverRepository).save(driverDO);
         }
     }
@@ -65,12 +66,16 @@ public class DriverServiceTest
         BDDMockito.given(carService.existsById(1L)).willReturn(true);
         BDDMockito.given(driverRepository.existsByIdAndCarDO_IdIsNotNull(6L)).willReturn(false);
         DriverDO driverDO = new DriverDO("username", "password");
-        BDDMockito.given(carService.findAvailable(1L)).willAnswer(answer -> {throw new CarAlreadyInUseException("");});
+        BDDMockito.given(carService.findAvailable(1L)).willAnswer(answer -> {
+            throw new CarAlreadyInUseException("");
+        });
         try
         {
             driverService.select(6L, 1L);
             Assert.fail();
-        } catch (CarAlreadyInUseException e) {
+        }
+        catch (CarAlreadyInUseException e)
+        {
             InOrder inOrder = BDDMockito.inOrder(carService, driverRepository);
             inOrder.verify(carService).existsById(1L);
             inOrder.verify(driverRepository).existsByIdAndCarDO_IdIsNotNull(6L);
@@ -89,7 +94,9 @@ public class DriverServiceTest
         {
             driverService.select(6L, 1L);
             Assert.fail();
-        } catch (ConstraintsViolationException e) {
+        }
+        catch (ConstraintsViolationException e)
+        {
             InOrder inOrder = BDDMockito.inOrder(carService, driverRepository);
             inOrder.verify(carService).existsById(1L);
             inOrder.verify(driverRepository).existsByIdAndCarDO_IdIsNotNull(6L);
@@ -107,7 +114,9 @@ public class DriverServiceTest
         {
             driverService.select(999L, 999L);
             Assert.fail();
-        } catch (EntityNotFoundException e) {
+        }
+        catch (EntityNotFoundException e)
+        {
             InOrder inOrder = BDDMockito.inOrder(carService, driverRepository);
             inOrder.verify(carService).existsById(999L);
             inOrder.verify(driverRepository, times(0)).existsByIdAndCarDO_IdIsNotNull(BDDMockito.any());
@@ -124,12 +133,16 @@ public class DriverServiceTest
         BDDMockito.given(driverRepository.existsByIdAndCarDO_IdIsNotNull(0000L)).willReturn(false);
         CarDO carDO = new CarDO("LICENSE-TST", 4, false, 5f, EngineType.GAS);
         BDDMockito.given(carService.findAvailable(1L)).willReturn(carDO);
-        BDDMockito.given(driverRepository.findByIdAndOnlineStatusAndDeletedFalse(0000L, OnlineStatus.ONLINE)).willAnswer(answer -> {throw new EntityNotFoundException("");});
+        BDDMockito.given(driverRepository.findByIdAndOnlineStatusAndDeletedFalse(0000L, OnlineStatus.ONLINE)).willAnswer(answer -> {
+            throw new EntityNotFoundException("");
+        });
         try
         {
             driverService.select(0000L, 1L);
             Assert.fail();
-        } catch (EntityNotFoundException e ) {
+        }
+        catch (EntityNotFoundException e)
+        {
             InOrder inOrder = BDDMockito.inOrder(carService, driverRepository);
             inOrder.verify(carService).existsById(1L);
             inOrder.verify(driverRepository).existsByIdAndCarDO_IdIsNotNull(BDDMockito.any());
@@ -155,12 +168,16 @@ public class DriverServiceTest
     @Test
     public void shouldThrowEntityNotFoundExceptionWhenUnknownDriver() throws EntityNotFoundException
     {
-        BDDMockito.given(carService.deselect(1L, 999L)).willAnswer(answer -> {throw new EntityNotFoundException("");});
+        BDDMockito.given(carService.deselect(1L, 999L)).willAnswer(answer -> {
+            throw new EntityNotFoundException("");
+        });
         try
         {
             driverService.deselect(999L, 1L);
             Assert.fail();
-        } catch (EntityNotFoundException e) {
+        }
+        catch (EntityNotFoundException e)
+        {
             BDDMockito.verify(carService).deselect(1L, 999L);
         }
     }

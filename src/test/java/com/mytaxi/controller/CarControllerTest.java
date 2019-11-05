@@ -58,6 +58,7 @@ public class CarControllerTest
             .andExpect(status().isOk());
     }
 
+
     //FIXME HttpStatus code
     @Test
     public void shoulThrowEntityNotFoundExceptionFindingNonExistingCarId() throws Exception

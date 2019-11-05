@@ -6,7 +6,6 @@ import com.mytaxi.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,7 +33,9 @@ public class ManufacturerServiceTest
     {
         String name = "Manufacturer Test";
         BDDMockito.given(manufacturerRepository.findByNameIgnoreCase(name))
-            .willAnswer(answer -> {throw new EntityNotFoundException("Entity not found");});
+            .willAnswer(answer -> {
+                throw new EntityNotFoundException("Entity not found");
+            });
 
         service.findByNameIgnoreCase(name);
     }

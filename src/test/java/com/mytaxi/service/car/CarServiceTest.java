@@ -38,6 +38,7 @@ public class CarServiceTest
     @MockBean
     private ManufacturerService manufacturerService;
 
+
     @Test
     public void shouldSaveCarDO() throws ConstraintsViolationException, EntityNotFoundException
     {
@@ -72,8 +73,8 @@ public class CarServiceTest
 
         BDDMockito.given(manufacturerService.findByNameIgnoreCase(manufacturerDO.getName())).willReturn(manufacturerDO);
         BDDMockito.given(carRepository.save(carDO)).willAnswer(answer -> {
-                throw new DataIntegrityViolationException("");
-            });
+            throw new DataIntegrityViolationException("");
+        });
 
         try
         {
@@ -124,12 +125,15 @@ public class CarServiceTest
         CarDO carDO = new CarDO("LICENSE-TST", 4, true, 3F, EngineType.ELETRIC, manufacturerDO);
         BDDMockito.given(carRepository.findById(2L)).willReturn(Optional.of(carDO));
         BDDMockito.given(manufacturerService.findByNameIgnoreCase(manufacturerDO.getName())).willReturn(manufacturerDO);
-        BDDMockito.given(carRepository.save(carDO)).willAnswer(answer -> {throw new DataIntegrityViolationException("");});
+        BDDMockito.given(carRepository.save(carDO)).willAnswer(answer -> {
+            throw new DataIntegrityViolationException("");
+        });
         try
         {
             service.update(2, carDO);
             Assert.fail();
-        } catch (ConstraintsViolationException e)
+        }
+        catch (ConstraintsViolationException e)
         {
             InOrder inOrder = BDDMockito.inOrder(manufacturerService, carRepository);
             inOrder.verify(carRepository).findById(2L);
@@ -146,11 +150,14 @@ public class CarServiceTest
         ManufacturerDO manufacturerDO = new ManufacturerDO("Tesla");
         CarDO carDO = new CarDO("LICENSE-TST", 4, true, 3F, EngineType.ELETRIC, manufacturerDO);
 
-        BDDMockito.given(carRepository.findById(0L)).willAnswer(answer -> {throw new EntityNotFoundException("");});
+        BDDMockito.given(carRepository.findById(0L)).willAnswer(answer -> {
+            throw new EntityNotFoundException("");
+        });
         try
         {
             service.update(0, carDO);
-        } catch (EntityNotFoundException e)
+        }
+        catch (EntityNotFoundException e)
         {
             InOrder inOrder = BDDMockito.inOrder(manufacturerService, carRepository);
             inOrder.verify(carRepository).findById(0L);
