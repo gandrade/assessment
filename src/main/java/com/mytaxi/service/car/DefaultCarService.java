@@ -11,6 +11,7 @@ import com.mytaxi.service.driver.DefaultDriverService;
 import com.mytaxi.service.manufacturer.ManufacturerService;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -99,9 +100,14 @@ public class DefaultCarService implements CarService
 
 
     @Override
-    public void delete(Long carId)
+    public void delete(Long carId) throws EntityNotFoundException
     {
-        carRepository.deleteById(carId);
+        try {
+            carRepository.deleteById(carId);
+        } catch (EmptyResultDataAccessException e) {
+            LOG.error("Couldn't exclude car " + carId + ".", e);
+            throw new EntityNotFoundException("Couldn't exclude car " + carId + ".");
+        }
     }
 
 

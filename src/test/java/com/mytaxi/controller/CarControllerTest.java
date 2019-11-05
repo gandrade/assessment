@@ -65,6 +65,13 @@ public class CarControllerTest
             .andExpect(status().isOk());
     }
 
+    @Test
+    public void shouldDeleteNonExistingCar() throws Exception
+    {
+        this.mockMvc.perform(delete("/v1/cars/0"))
+            .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     public void shouldCreateACar() throws Exception
