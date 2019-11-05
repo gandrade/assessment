@@ -1,7 +1,6 @@
 package com.mytaxi.dataaccessobject;
 
 import com.mytaxi.domainobject.CarDO;
-import com.mytaxi.domainobject.DriverDO;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

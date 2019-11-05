@@ -1,6 +1,5 @@
 package com.mytaxi.specification;
 
-import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainobject.ManufacturerDO;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -27,13 +26,14 @@ public class ManufacturerSpecificationExecutorTest
     @Test
     public void shouldReturnEmptyPredicatesSet()
     {
-        Assert.assertThat(manufacturerDOSpecificationExecutor.createPredicates((Root<ManufacturerDO>)null, null, null), Matchers.nullValue());
+        Assert.assertThat(manufacturerDOSpecificationExecutor.createPredicates((Root<ManufacturerDO>) null, null, null), Matchers.nullValue());
     }
+
 
     @Test
     public void shouldReturnEmptyPredicatesSetWhenRoot()
     {
-        Assert.assertThat(manufacturerDOSpecificationExecutor.createPredicates((Path<ManufacturerDO>) null, null, null),  Matchers.is(Collections.emptySet()));
+        Assert.assertThat(manufacturerDOSpecificationExecutor.createPredicates((Path<ManufacturerDO>) null, null, null), Matchers.is(Collections.emptySet()));
     }
 
 }

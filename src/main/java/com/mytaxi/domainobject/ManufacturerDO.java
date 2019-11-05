@@ -42,14 +42,16 @@ public class ManufacturerDO
         this.name = name == null ? null : name.toUpperCase();
     }
 
-// FIXME
+
+    // FIXME
     public void addCar(CarDO carDO)
     {
         cars.add(carDO);
         carDO.setManufacturerDO(this);
     }
 
-// FIXME
+
+    // FIXME
     public void removeComment(CarDO carDO)
     {
         cars.remove(carDO);

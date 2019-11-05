@@ -30,9 +30,10 @@ public class CarSpecificationExecutorTest
         Assert.assertThat(carDOSpecificationExecutor.createPredicates((Path<CarDO>) null, null, null), Matchers.is(Collections.emptySet()));
     }
 
+
     @Test
     public void shouldReturnEmptyPredicatesSetWhenRoot()
     {
-        Assert.assertThat(carDOSpecificationExecutor.createPredicates((Root<CarDO>) null, null, null),  Matchers.nullValue());
+        Assert.assertThat(carDOSpecificationExecutor.createPredicates((Root<CarDO>) null, null, null), Matchers.nullValue());
     }
 }

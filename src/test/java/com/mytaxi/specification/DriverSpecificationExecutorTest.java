@@ -1,6 +1,5 @@
 package com.mytaxi.specification;
 
-import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -30,12 +29,13 @@ public class DriverSpecificationExecutorTest
     @Test
     public void shouldReturnEmptyPredicatesSet()
     {
-        Assert.assertThat(driverDOSpecificationExecutor.createPredicates((Path<DriverDO>)null, null, null), Matchers.nullValue());
+        Assert.assertThat(driverDOSpecificationExecutor.createPredicates((Path<DriverDO>) null, null, null), Matchers.nullValue());
     }
+
 
     @Test
     public void shouldReturnEmptyPredicatesSetWhenRoot()
     {
-        Assert.assertThat(driverDOSpecificationExecutor.createPredicates((Root<DriverDO>) null, null, null),  Matchers.is(Collections.emptySet()));
+        Assert.assertThat(driverDOSpecificationExecutor.createPredicates((Root<DriverDO>) null, null, null), Matchers.is(Collections.emptySet()));
     }
 }

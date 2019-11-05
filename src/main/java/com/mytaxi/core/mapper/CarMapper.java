@@ -46,7 +46,8 @@ public class CarMapper
 
     public static CarDO makeDriverDO(CarCriteriaDTO carCriteriaDTO)
     {
-        if (carCriteriaDTO == null) {
+        if (carCriteriaDTO == null)
+        {
             return null;
         }
 

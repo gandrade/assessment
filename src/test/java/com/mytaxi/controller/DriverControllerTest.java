@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,6 +33,7 @@ public class DriverControllerTest
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     @WithAnonymousUser
     public void shouldReturn401UnauthorizedGettingAllDrivers() throws Exception
@@ -41,6 +41,7 @@ public class DriverControllerTest
         this.mockMvc.perform(get("/v1/drivers"))
             .andExpect(status().isUnauthorized());
     }
+
 
     @Test
     public void shouldReturnAllDrivers() throws Exception
@@ -51,6 +52,7 @@ public class DriverControllerTest
             .andExpect(jsonPath("$.length()", is(8)));
     }
 
+
     @Test
     public void shouldReturnDriversNonConvertibleCarsOnly() throws Exception
     {
@@ -59,6 +61,7 @@ public class DriverControllerTest
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.length()", is(0)));
     }
+
 
     @Test
     @DirtiesContext

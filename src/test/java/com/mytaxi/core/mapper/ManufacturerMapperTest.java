@@ -33,6 +33,7 @@ public class ManufacturerMapperTest
         assertThat(manufacturerDO.getName(), equalTo("TESLA"));
     }
 
+
     // FIXME
     @Test
     public void shouldReturnNullMakeManufacturerCriteriaDTO()
@@ -40,6 +41,7 @@ public class ManufacturerMapperTest
         ManufacturerCriteriaDTO manufacturerCriteriaDTO = null;
         assertThat(ManufacturerMapper.makeManufacturerDO(manufacturerCriteriaDTO), Matchers.nullValue());
     }
+
 
     @Test
     public void shouldMakeManufacturerDOFilter()

@@ -1,6 +1,5 @@
 package com.mytaxi.service.driver;
 
-import com.mytaxi.specification.DriverDOSpecificationExecutor;
 import com.mytaxi.dataaccessobject.DriverRepository;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
@@ -10,6 +9,7 @@ import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
+import com.mytaxi.specification.DriverDOSpecificationExecutor;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
@@ -90,9 +90,9 @@ public class DefaultDriverService implements DriverService
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
     }
 
-
-
     //FIXME
+
+
     /** {@inheritDoc} */
     @Override
     @Transactional
@@ -113,6 +113,8 @@ public class DefaultDriverService implements DriverService
     }
 
     //FIXME
+
+
     /** {@inheritDoc} */
     @Override
     @Transactional
@@ -121,6 +123,7 @@ public class DefaultDriverService implements DriverService
         CarDO carDO = carService.deselect(carId, driverId);
         carDO.setDriverDO(null);
     }
+
 
     /** {@inheritDoc} */
     @Override

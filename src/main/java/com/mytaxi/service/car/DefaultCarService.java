@@ -2,7 +2,6 @@ package com.mytaxi.service.car;
 
 import com.mytaxi.dataaccessobject.CarRepository;
 import com.mytaxi.domainobject.CarDO;
-import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainobject.ManufacturerDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
@@ -47,6 +46,7 @@ public class DefaultCarService implements CarService
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + carId));
     }
 
+
     /** {@inheritDoc */
     @Override
     public CarDO findAvailable(Long carId) throws CarAlreadyInUseException
@@ -55,6 +55,7 @@ public class DefaultCarService implements CarService
             .orElseThrow(() -> new CarAlreadyInUseException("Car " + carId + " already in use."));
     }
 
+
     /** {@inheritDoc */
     @Override
     public CarDO deselect(Long carId, Long driverId) throws EntityNotFoundException
@@ -62,6 +63,7 @@ public class DefaultCarService implements CarService
         return carRepository.findByIdAndDriverDO_Id(carId, driverId)
             .orElseThrow(() -> new EntityNotFoundException("Could not find car with id: " + carId + " for the driver: " + driverId));
     }
+
 
     /** {@inheritDoc */
     @Override
@@ -79,6 +81,7 @@ public class DefaultCarService implements CarService
             throw new ConstraintsViolationException(e.getMessage());
         }
     }
+
 
     /** {@inheritDoc */
     @Override
@@ -104,17 +107,22 @@ public class DefaultCarService implements CarService
         }
     }
 
+
     /** {@inheritDoc */
     @Override
     public void delete(Long carId) throws EntityNotFoundException
     {
-        try {
+        try
+        {
             carRepository.deleteById(carId);
-        } catch (EmptyResultDataAccessException e) {
+        }
+        catch (EmptyResultDataAccessException e)
+        {
             LOG.error("Couldn't exclude car " + carId + ".", e);
             throw new EntityNotFoundException("Couldn't exclude car " + carId + ".");
         }
     }
+
 
     /** {@inheritDoc */
     @Override
@@ -122,6 +130,7 @@ public class DefaultCarService implements CarService
     {
         return carRepository.existsById(carId);
     }
+
 
     /** {@inheritDoc */
     @Override

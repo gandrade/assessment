@@ -38,9 +38,12 @@ public class SwaggerConfiguration
             .securitySchemes(Arrays.asList(generateBasicAuth()));
     }
 
-    private BasicAuth generateBasicAuth(){
+
+    private BasicAuth generateBasicAuth()
+    {
         return new BasicAuth("basicAuth");
     }
+
 
     private SecurityContext generateSecurityContext(String[] roles)
     {

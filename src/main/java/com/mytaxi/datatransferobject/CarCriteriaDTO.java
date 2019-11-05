@@ -1,7 +1,5 @@
 package com.mytaxi.datatransferobject;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mytaxi.domainvalue.EngineType;
 
 import javax.validation.Valid;

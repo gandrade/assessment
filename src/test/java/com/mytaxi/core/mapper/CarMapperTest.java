@@ -90,6 +90,7 @@ public class CarMapperTest
         assertThat(carDO.getManufacturerDO().getName(), equalTo("TESLA"));
     }
 
+
     @Test
     public void shouldMakeCarDOUsingCarCriteria()
     {

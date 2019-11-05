@@ -36,6 +36,7 @@ public class DriverServiceTest
         driverService.select(5L, 1L);
     }
 
+
     @Test(expected = ConstraintsViolationException.class)
     @DirtiesContext
     public void shouldThrowConstrainsViolationExceptionWhenDriverAlreadyHaveASelectedCar() throws CarAlreadyInUseException, EntityNotFoundException, ConstraintsViolationException

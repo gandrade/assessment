@@ -2,23 +2,19 @@ package com.mytaxi.controller;
 
 import com.mytaxi.core.mapper.DriverMapper;
 import com.mytaxi.datatransferobject.DriverCriteriaDTO;
-import com.mytaxi.specification.DriverDOSpecificationExecutor;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.driver.DriverService;
-
-import java.sql.Driver;
-import java.util.List;
-import javax.validation.Valid;
-
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * All operations with a driver will be routed by this controller.
@@ -26,18 +22,21 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("v1/drivers")
-@Api(tags={"Driver Controller Management"})
+@Api(tags = {"Driver management"})
 public class DriverController
 {
 
     private final DriverService driverService;
-    private final DriverDOSpecificationExecutor driverDOSpecification;
 
 
-    public DriverController(DriverService driverService, DriverDOSpecificationExecutor driverDOSpecification)
+    /**
+     * Default constructor.
+     *
+     * @param driverService {@link DriverService}
+     */
+    public DriverController(DriverService driverService)
     {
         this.driverService = driverService;
-        this.driverDOSpecification = driverDOSpecification;
     }
 
 

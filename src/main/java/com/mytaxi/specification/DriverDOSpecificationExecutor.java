@@ -7,7 +7,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.mytaxi.domainobject.DriverDO_.*;
 
@@ -27,7 +29,8 @@ public class DriverDOSpecificationExecutor implements DefaultSpecificationExecut
     @Override
     public Set<Predicate> createPredicates(Root<DriverDO> path, CriteriaBuilder builder, DriverDO doObject)
     {
-        if (doObject == null) {
+        if (doObject == null)
+        {
             return Collections.emptySet();
         }
         Set<Predicate> predicates = new HashSet<>();

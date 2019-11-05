@@ -7,7 +7,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.mytaxi.domainobject.ManufacturerDO_.NAME;
 
@@ -18,7 +20,8 @@ public class ManufacturerDOSpecificationExecutor implements DefaultSpecification
     @Override
     public Set<Predicate> createPredicates(Path<ManufacturerDO> path, CriteriaBuilder builder, ManufacturerDO manufacturerDO)
     {
-        if (manufacturerDO == null) {
+        if (manufacturerDO == null)
+        {
             return Collections.emptySet();
         }
         Set<Predicate> predicates = new HashSet<>();

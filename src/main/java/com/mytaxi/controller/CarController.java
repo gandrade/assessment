@@ -20,13 +20,18 @@ import java.util.List;
  */
 @RequestMapping("v1/cars")
 @RestController
-@Api(tags={"Car Controller Management"})
+@Api(tags = {"Car management"})
 public class CarController
 {
 
     private final CarService carService;
 
 
+    /**
+     * Default constructor.
+     *
+     * @param carService {@link CarService}
+     */
     public CarController(final CarService carService)
     {
         this.carService = carService;

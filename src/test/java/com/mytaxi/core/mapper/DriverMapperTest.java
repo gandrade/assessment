@@ -28,6 +28,7 @@ public class DriverMapperTest
         Assert.assertThat(driverDO.getPassword(), Matchers.nullValue());
     }
 
+
     // FIXME
     @Test
     public void shouldReturnNullMakingDriverCriteria2()
@@ -37,6 +38,7 @@ public class DriverMapperTest
         DriverDO driverDO = DriverMapper.makeDriverDO(driverDTO);
         Assert.assertThat(driverDO.getUsername(), Matchers.equalTo("username"));
     }
+
 
     // FIXME
     @Test

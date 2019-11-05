@@ -23,7 +23,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
     @Bean
     public UserDetailsService userDetailsService(
         @Value("${security.username}") String username,
-        @Value("${security.password}")String password,
+        @Value("${security.password}") String password,
         @Value("${security.roles}") String[] roles)
     {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();

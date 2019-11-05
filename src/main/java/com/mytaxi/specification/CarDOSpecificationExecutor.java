@@ -7,7 +7,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +29,8 @@ public class CarDOSpecificationExecutor implements DefaultSpecificationExecutor<
     @Override
     public Set<Predicate> createPredicates(Path<CarDO> path, CriteriaBuilder builder, CarDO doObject)
     {
-        if (doObject == null) {
+        if (doObject == null)
+        {
             return Collections.emptySet();
         }
         final Set<Predicate> predicates = new HashSet<>();
