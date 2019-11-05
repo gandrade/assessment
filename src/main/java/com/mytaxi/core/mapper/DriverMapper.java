@@ -11,22 +11,13 @@ import java.util.stream.Collectors;
 
 public class DriverMapper
 {
-    /**
-     *
-     * @param driverDTO
-     * @return
-     */
+
     public static DriverDO makeDriverDO(DriverDTO driverDTO)
     {
         return new DriverDO(driverDTO.getUsername(), driverDTO.getPassword());
     }
 
 
-    /**
-     *
-     * @param driverDTO
-     * @return
-     */
     public static DriverDO makeDriverDO(DriverCriteriaDTO driverDTO)
     {
         if (driverDTO == null)
@@ -40,11 +31,6 @@ public class DriverMapper
     }
 
 
-    /**
-     *
-     * @param driverDO
-     * @return
-     */
     public static DriverDTO makeDriverDTO(DriverDO driverDO)
     {
         if (driverDO == null)
@@ -68,11 +54,6 @@ public class DriverMapper
     }
 
 
-    /**
-     *
-     * @param drivers
-     * @return
-     */
     public static List<DriverDTO> makeDriverDTOList(Collection<DriverDO> drivers)
     {
         return drivers.stream()

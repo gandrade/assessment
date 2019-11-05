@@ -7,11 +7,6 @@ import com.mytaxi.domainobject.ManufacturerDO;
 public class ManufacturerMapper
 {
 
-    /**
-     *
-     * @param manufacturerDO
-     * @return
-     */
     public static ManufacturerDTO makeManufacturerDTO(ManufacturerDO manufacturerDO)
     {
         if (manufacturerDO == null)
@@ -25,22 +20,12 @@ public class ManufacturerMapper
     }
 
 
-    /**
-     *
-     * @param manufacturerDTO
-     * @return
-     */
     public static ManufacturerDO makeManufacturerDO(ManufacturerDTO manufacturerDTO)
     {
         return new ManufacturerDO(manufacturerDTO.getName());
     }
 
 
-    /**
-     *
-     * @param manufacturerDTO
-     * @return
-     */
     public static ManufacturerDO makeManufacturerDO(ManufacturerCriteriaDTO manufacturerDTO)
     {
         if (manufacturerDTO == null)

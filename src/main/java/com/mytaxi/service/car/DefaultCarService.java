@@ -27,6 +27,11 @@ public class DefaultCarService implements CarService
     private final ManufacturerService manufacturerService;
 
 
+    /**
+     * Default constructor.
+     * @param carRepository {@link CarRepository}.
+     * @param manufacturerService {@link ManufacturerService}.
+     */
     public DefaultCarService(final CarRepository carRepository, final ManufacturerService manufacturerService)
     {
         this.carRepository = carRepository;
@@ -34,6 +39,7 @@ public class DefaultCarService implements CarService
     }
 
 
+    /** {@inheritDoc */
     @Override
     public CarDO find(Long carId) throws EntityNotFoundException
     {
@@ -41,7 +47,7 @@ public class DefaultCarService implements CarService
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + carId));
     }
 
-
+    /** {@inheritDoc */
     @Override
     public CarDO findAvailable(Long carId) throws CarAlreadyInUseException
     {
@@ -49,7 +55,7 @@ public class DefaultCarService implements CarService
             .orElseThrow(() -> new CarAlreadyInUseException("Car " + carId + " already in use."));
     }
 
-
+    /** {@inheritDoc */
     @Override
     public CarDO deselect(Long carId, Long driverId) throws EntityNotFoundException
     {
@@ -57,7 +63,7 @@ public class DefaultCarService implements CarService
             .orElseThrow(() -> new EntityNotFoundException("Could not find car with id: " + carId + " for the driver: " + driverId));
     }
 
-
+    /** {@inheritDoc */
     @Override
     public CarDO create(CarDO carDO) throws ConstraintsViolationException, EntityNotFoundException
     {
@@ -74,7 +80,7 @@ public class DefaultCarService implements CarService
         }
     }
 
-
+    /** {@inheritDoc */
     @Override
     public void update(long carId, CarDO carDO) throws EntityNotFoundException, ConstraintsViolationException
     {
@@ -98,7 +104,7 @@ public class DefaultCarService implements CarService
         }
     }
 
-
+    /** {@inheritDoc */
     @Override
     public void delete(Long carId) throws EntityNotFoundException
     {
@@ -110,14 +116,14 @@ public class DefaultCarService implements CarService
         }
     }
 
-
+    /** {@inheritDoc */
     @Override
     public boolean existsById(Long carId)
     {
         return carRepository.existsById(carId);
     }
 
-
+    /** {@inheritDoc */
     @Override
     public List<CarDO> findAll()
     {
