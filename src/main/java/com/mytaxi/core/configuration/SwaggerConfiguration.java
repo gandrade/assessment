@@ -1,6 +1,7 @@
 package com.mytaxi.core.configuration;
 
 import com.mytaxi.MytaxiServerApplicantTestApplication;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -13,6 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.Stream;
 
 /**
  * Configures Swagger2 configuration, including security also.
@@ -23,7 +25,7 @@ public class SwaggerConfiguration
 {
 
     @Bean
-    public Docket docket()
+    public Docket docket(@Value("${security.roles}") String[] roles)
     {
         String packageName = MytaxiServerApplicantTestApplication.class.getPackage().getName();
         return new Docket(DocumentationType.SWAGGER_2)
@@ -32,7 +34,7 @@ public class SwaggerConfiguration
             .paths(PathSelectors.any())
             .build()
             .apiInfo(generateApiInfo())
-            .securityContexts(Arrays.asList(apiSecurityContext()))
+            .securityContexts(Arrays.asList(generateSecurityContext(roles)))
             .securitySchemes(Arrays.asList(generateBasicAuth()));
     }
 
@@ -40,18 +42,21 @@ public class SwaggerConfiguration
         return new BasicAuth("basicAuth");
     }
 
-    private SecurityContext apiSecurityContext()
+    private SecurityContext generateSecurityContext(String[] roles)
     {
         return SecurityContext.builder()
-            .securityReferences(Arrays.asList(basicAuthReference()))
+            .securityReferences(Arrays.asList(generateSecurityReference(roles)))
             .forPaths(PathSelectors.ant("/v1/**"))
             .build();
     }
 
 
-    private SecurityReference basicAuthReference()
+    private SecurityReference generateSecurityReference(String[] roles)
     {
-        return new SecurityReference("basicAuth", new AuthorizationScope[0]);
+        AuthorizationScope[] authorizationScopes = Stream.of(roles)
+            .map(role -> new AuthorizationScope(role, role))
+            .toArray(AuthorizationScope[]::new);
+        return new SecurityReference("basicAuth", authorizationScopes);
     }
 
 
