@@ -119,13 +119,6 @@ public class DefaultDriverService implements DriverService
         carDO.setDriverDO(null);
     }
 
-//    /** {@inheritDoc} */
-//    @Override
-//    public List<DriverDO> findAll(Specification<DriverDO> spec)
-//    {
-//        return driverRepository.findAll(spec);
-//    }
-
     /** {@inheritDoc} */
     @Override
     public List<DriverDO> findAll(DriverDO driverDO)
