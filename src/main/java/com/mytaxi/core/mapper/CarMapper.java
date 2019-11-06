@@ -1,5 +1,6 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
+import com.mytaxi.datatransferobject.CarCriteriaDTO;
 import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.CarDO;
@@ -39,6 +40,24 @@ public class CarMapper
             carDTO.getConvertible(),
             carDTO.getRating(),
             carDTO.getEngineType(),
+            manufacturerDO);
+    }
+
+
+    public static CarDO makeDriverDO(CarCriteriaDTO carCriteriaDTO)
+    {
+        if (carCriteriaDTO == null)
+        {
+            return null;
+        }
+
+        ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(carCriteriaDTO.getManufacturerDTO());
+        return new CarDO(
+            carCriteriaDTO.getLicensePlate(),
+            carCriteriaDTO.getSeatCount(),
+            carCriteriaDTO.getConvertible(),
+            carCriteriaDTO.getRating(),
+            carCriteriaDTO.getEngineType(),
             manufacturerDO);
     }
 

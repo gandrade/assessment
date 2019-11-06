@@ -33,6 +33,7 @@ public class CarControllerTest
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     @WithAnonymousUser
     public void shoulReturn401UnauthorizedFindingCars() throws Exception
@@ -40,6 +41,7 @@ public class CarControllerTest
         this.mockMvc.perform(get("/v1/cars"))
             .andExpect(status().isUnauthorized());
     }
+
 
     @Test
     public void shouldFindCars() throws Exception
@@ -58,11 +60,27 @@ public class CarControllerTest
 
 
     @Test
+    public void shoulThrowEntityNotFoundExceptionFindingNonExistingCarId() throws Exception
+    {
+        this.mockMvc.perform(get("/v1/cars/0"))
+            .andExpect(status().isNotFound());
+    }
+
+
+    @Test
     @DirtiesContext
     public void shouldDeleteCar() throws Exception
     {
         this.mockMvc.perform(delete("/v1/cars/1"))
             .andExpect(status().isOk());
+    }
+
+
+    @Test
+    public void shouldDeleteNonExistingCar() throws Exception
+    {
+        this.mockMvc.perform(delete("/v1/cars/0"))
+            .andExpect(status().isNotFound());
     }
 
 

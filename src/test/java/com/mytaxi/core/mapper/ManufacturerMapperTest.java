@@ -1,7 +1,9 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
+import com.mytaxi.datatransferobject.ManufacturerCriteriaDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.ManufacturerDO;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -28,6 +30,25 @@ public class ManufacturerMapperTest
             .createManufacturerDTO();
         ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
         assertThat(manufacturerDO.getId(), nullValue());
+        assertThat(manufacturerDO.getName(), equalTo("TESLA"));
+    }
+
+
+    @Test
+    public void shouldReturnNullWhenManufacturerCriteriaDTOIsNull()
+    {
+        ManufacturerCriteriaDTO manufacturerCriteriaDTO = null;
+        assertThat(ManufacturerMapper.makeManufacturerDO(manufacturerCriteriaDTO), Matchers.nullValue());
+    }
+
+
+    @Test
+    public void shouldMakeManufacturerDOFilter()
+    {
+        ManufacturerCriteriaDTO manufacturerDTO = ManufacturerCriteriaDTO.newBuilder()
+            .setName("Tesla")
+            .createManufacturerDTO();
+        ManufacturerDO manufacturerDO = ManufacturerMapper.makeManufacturerDO(manufacturerDTO);
         assertThat(manufacturerDO.getName(), equalTo("TESLA"));
     }
 }

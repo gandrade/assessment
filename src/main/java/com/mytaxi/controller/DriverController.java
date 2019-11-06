@@ -1,37 +1,21 @@
 package com.mytaxi.controller;
 
-import com.mytaxi.controller.mapper.DriverMapper;
-import com.mytaxi.controller.specification.DriverDOSpecification;
+import com.mytaxi.core.mapper.DriverMapper;
+import com.mytaxi.datatransferobject.DriverCriteriaDTO;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
-import com.mytaxi.service.car.CarService;
 import com.mytaxi.service.driver.DriverService;
-
-import java.util.List;
-import javax.validation.Valid;
-
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * All operations with a driver will be routed by this controller.
@@ -39,21 +23,26 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("v1/drivers")
+@Api(tags = {"Driver management"})
 public class DriverController
 {
 
     private final DriverService driverService;
-    private final DriverDOSpecification driverDOSpecification;
 
 
-    public DriverController(DriverService driverService, DriverDOSpecification driverDOSpecification)
+    /**
+     * Default constructor.
+     *
+     * @param driverService {@link DriverService}
+     */
+    public DriverController(DriverService driverService)
     {
         this.driverService = driverService;
-        this.driverDOSpecification = driverDOSpecification;
     }
 
 
     @GetMapping("/{driverId}")
+    @ApiOperation(value = "Return a driver based on its identification.")
     public DriverDTO getDriver(@Valid @PathVariable long driverId) throws EntityNotFoundException
     {
         DriverDO driverDO = driverService.find(driverId);
@@ -63,6 +52,7 @@ public class DriverController
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Creates a new Driver.")
     public DriverDTO createDriver(@Valid @RequestBody DriverDTO driverDTO) throws ConstraintsViolationException
     {
         DriverDO driverDO = DriverMapper.makeDriverDO(driverDTO);
@@ -72,6 +62,7 @@ public class DriverController
 
 
     @DeleteMapping("/{driverId}")
+    @ApiOperation(value = "Deletes a Driver.")
     public void deleteDriver(@Valid @PathVariable long driverId) throws EntityNotFoundException
     {
         driverService.delete(driverId);
@@ -79,6 +70,7 @@ public class DriverController
 
 
     @PutMapping("/{driverId}")
+    @ApiOperation(value = "Updates Driver's location.")
     public void updateLocation(
         @Valid @PathVariable long driverId, @RequestParam double longitude, @RequestParam double latitude)
         throws EntityNotFoundException
@@ -88,6 +80,7 @@ public class DriverController
 
 
     @PutMapping("/{driverId}/cars/{carId}/select")
+    @ApiOperation(value = "Selects a Driver for a given Car.")
     public DriverDTO selectCar(@PathVariable Long driverId, @PathVariable Long carId)
         throws EntityNotFoundException, ConstraintsViolationException, CarAlreadyInUseException
     {
@@ -97,6 +90,7 @@ public class DriverController
 
 
     @PutMapping("/{driverId}/cars/{carId}/deselect")
+    @ApiOperation(value = "Deselects a Driver for a given Car.")
     public void deselectCar(@PathVariable Long driverId, @PathVariable Long carId) throws EntityNotFoundException
     {
         driverService.deselect(driverId, carId);
@@ -104,15 +98,16 @@ public class DriverController
 
 
     @GetMapping
-    public List<DriverDTO> findDrivers(DriverDTO driverDTO)
+    @ApiOperation(value = "Returns a list of all drivers based on given criteria.")
+    public List<DriverDTO> findDrivers(DriverCriteriaDTO driverCriteriaDTO)
     {
-        Specification<DriverDO> driverSpecification = driverDOSpecification.makeSpecification(driverDTO);
-        List<DriverDO> drivers = driverService.findAll(driverSpecification);
+        DriverDO driverDO = DriverMapper.makeDriverDO(driverCriteriaDTO);
+        List<DriverDO> drivers = driverService.findAll(driverDO);
         return DriverMapper.makeDriverDTOList(drivers);
     }
 
 
-    @InitBinder
+    @InitBinder(value = {"driverCriteriaDTO"})
     public void initBinder(WebDataBinder webDataBinder)
     {
         webDataBinder.initDirectFieldAccess();

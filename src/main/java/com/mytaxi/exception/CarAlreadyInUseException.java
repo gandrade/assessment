@@ -1,18 +1,19 @@
 package com.mytaxi.exception;
 
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Car already in use")
+//@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Car already in use")
 public class CarAlreadyInUseException extends Exception
 {
-    private static org.slf4j.Logger LOG = LoggerFactory.getLogger(CarAlreadyInUseException.class);
+    static final long serialVersionUID = -3387516993334229948L;
+
+
+    public CarAlreadyInUseException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
 
     public CarAlreadyInUseException(String message)
     {
         super(message);
-        LOG.warn(message);
     }
 }

@@ -9,6 +9,7 @@ import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.car.CarService;
+import com.mytaxi.specification.DriverDOSpecificationExecutor;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,17 +29,20 @@ public class DefaultDriverService implements DriverService
     private static org.slf4j.Logger LOG = LoggerFactory.getLogger(DefaultDriverService.class);
 
     private final DriverRepository driverRepository;
+    private final DriverDOSpecificationExecutor driverDOSpecification;
     private final CarService carService;
 
 
     /**
      * Default constructor.
      * @param driverRepository {@link DriverRepository}
+     * @param driverDOSpecification {@link DriverDOSpecificationExecutor}
      * @param carService {@link CarService}
      */
-    public DefaultDriverService(final DriverRepository driverRepository, CarService carService)
+    public DefaultDriverService(final DriverRepository driverRepository, DriverDOSpecificationExecutor driverDOSpecification, CarService carService)
     {
         this.driverRepository = driverRepository;
+        this.driverDOSpecification = driverDOSpecification;
         this.carService = carService;
     }
 
@@ -47,7 +51,7 @@ public class DefaultDriverService implements DriverService
     @Override
     public DriverDO find(Long driverId) throws EntityNotFoundException
     {
-        return findDriverChecked(driverId);
+        return this.findDriverChecked(driverId);
     }
 
 
@@ -55,17 +59,14 @@ public class DefaultDriverService implements DriverService
     @Override
     public DriverDO create(DriverDO driverDO) throws ConstraintsViolationException
     {
-        DriverDO driver;
         try
         {
-            driver = driverRepository.save(driverDO);
+            return driverRepository.save(driverDO);
         }
         catch (DataIntegrityViolationException e)
         {
-            LOG.warn("Some constraints are thrown due to driver creation", e);
-            throw new ConstraintsViolationException(e.getMessage());
+            throw new ConstraintsViolationException("Some constraints are thrown due to driver creation", e);
         }
-        return driver;
     }
 
 
@@ -74,7 +75,7 @@ public class DefaultDriverService implements DriverService
     @Transactional
     public void delete(Long driverId) throws EntityNotFoundException
     {
-        DriverDO driverDO = findDriverChecked(driverId);
+        DriverDO driverDO = this.findDriverChecked(driverId);
         driverDO.setDeleted(true);
     }
 
@@ -84,15 +85,8 @@ public class DefaultDriverService implements DriverService
     @Transactional
     public void updateLocation(long driverId, double longitude, double latitude) throws EntityNotFoundException
     {
-        DriverDO driverDO = findDriverChecked(driverId);
+        DriverDO driverDO = this.findDriverChecked(driverId);
         driverDO.setCoordinate(new GeoCoordinate(latitude, longitude));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public List<DriverDO> find(OnlineStatus onlineStatus)
-    {
-        return driverRepository.findByOnlineStatus(onlineStatus);
     }
 
 
@@ -103,17 +97,18 @@ public class DefaultDriverService implements DriverService
     {
         if (!carService.existsById(carId))
         {
-            throw new EntityNotFoundException("Could not find car with id: " + carId);
+            throw new EntityNotFoundException("Could not find Car entity with id: " + carId);
         }
         if (driverRepository.existsByIdAndCarDO_IdIsNotNull(driverId))
         {
             throw new ConstraintsViolationException("Driver " + driverId + " already has a car selected.");
         }
         CarDO carDO = carService.findAvailable(carId);
-        DriverDO driverDO = findOnlineDriver(driverId);
+        DriverDO driverDO = this.findOnlineDriver(driverId);
         carDO.setDriverDO(driverDO);
         return driverDO;
     }
+
 
     /** {@inheritDoc} */
     @Override
@@ -124,25 +119,27 @@ public class DefaultDriverService implements DriverService
         carDO.setDriverDO(null);
     }
 
+
     /** {@inheritDoc} */
     @Override
-    public List<DriverDO> findAll(Specification<DriverDO> spec)
+    public List<DriverDO> findAll(DriverDO driverDO)
     {
-        return driverRepository.findAll(spec);
+        Specification<DriverDO> driverDOSpecification = this.driverDOSpecification.makeSpecification(driverDO);
+        return driverRepository.findAll(driverDOSpecification);
     }
 
 
     private DriverDO findOnlineDriver(Long driverId) throws EntityNotFoundException
     {
-        return driverRepository.findByIdAndOnlineStatus(driverId, OnlineStatus.ONLINE)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+        return driverRepository.findByIdAndOnlineStatusAndDeletedFalse(driverId, OnlineStatus.ONLINE)
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Driver entity with id: " + driverId));
     }
 
 
     private DriverDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
-        return driverRepository.findById(driverId)
-            .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
+        return driverRepository.findByIdAndDeletedFalse(driverId)
+            .orElseThrow(() -> new EntityNotFoundException("Could not find Driver entity with id: " + driverId));
     }
 
 }

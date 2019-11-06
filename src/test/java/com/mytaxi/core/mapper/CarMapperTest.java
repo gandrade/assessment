@@ -1,6 +1,8 @@
-package com.mytaxi.controller.mapper;
+package com.mytaxi.core.mapper;
 
+import com.mytaxi.datatransferobject.CarCriteriaDTO;
 import com.mytaxi.datatransferobject.CarDTO;
+import com.mytaxi.datatransferobject.ManufacturerCriteriaDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.ManufacturerDO;
@@ -86,6 +88,28 @@ public class CarMapperTest
         assertThat(carDO.getEngineType(), equalTo(EngineType.ELETRIC));
         assertThat(carDO.getLicensePlate(), equalTo("LICENSE123"));
         assertThat(carDO.getManufacturerDO().getName(), equalTo("TESLA"));
+    }
 
+
+    @Test
+    public void shouldMakeCarDOUsingCarCriteria()
+    {
+        ManufacturerCriteriaDTO manufacturerDTO = new ManufacturerCriteriaDTO.ManufacturerDTOBuilder().setName("Tesla").createManufacturerDTO();
+        CarCriteriaDTO carDTO = new CarCriteriaDTO.CarDTOBuilder()
+            .setManufacturerDTO(manufacturerDTO)
+            .setSeatCount(4)
+            .setConvertible(true)
+            .setEngineType(EngineType.ELETRIC)
+            .setLicensePlate("LICENSE123")
+            .setId(10L)
+            .setRating(2f)
+            .createCarDTO();
+        CarDO carDO = CarMapper.makeDriverDO(carDTO);
+        assertThat(carDO.getRating(), equalTo(2f));
+        assertThat(carDO.getConvertible(), equalTo(true));
+        assertThat(carDO.getSeatCount(), equalTo(4));
+        assertThat(carDO.getEngineType(), equalTo(EngineType.ELETRIC));
+        assertThat(carDO.getLicensePlate(), equalTo("LICENSE123"));
+        assertThat(carDO.getManufacturerDO().getName(), equalTo("TESLA"));
     }
 }
